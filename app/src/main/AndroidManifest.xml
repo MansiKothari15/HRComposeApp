@@ -14,8 +14,10 @@
         android:theme="@style/Theme.HRComposeApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".HomeActivity"
+            android:exported="true"
+            android:label="@string/title_activity_home"
+            android:theme="@style/Theme.HRComposeApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
