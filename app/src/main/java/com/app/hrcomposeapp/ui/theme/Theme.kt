@@ -7,28 +7,27 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = PrimaryColor,
+    primaryVariant = PrimaryDarkColor,
+
+    secondary = SecondaryColor,
+    secondaryVariant = SecondaryDarkColor,
+    onSecondary = ColorOnPrimary
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = PrimaryColor,
+    primaryVariant = PrimaryDarkColor,
 
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    secondary = SecondaryColor,
+    secondaryVariant = SecondaryDarkColor,
+    onSecondary = ColorOnPrimary
+
 )
 
 @Composable
-fun HRComposeAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun HRComposeAppTheme(darkTheme: Boolean = isSystemInDarkTheme(),
+                      content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
