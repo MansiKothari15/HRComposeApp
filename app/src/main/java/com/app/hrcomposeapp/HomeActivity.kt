@@ -12,15 +12,15 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +32,7 @@ import com.app.hrcomposeapp.AppConstants.ADD_EDIT_EMPLOYEE
 import com.app.hrcomposeapp.AppConstants.EMPLOYEE_DETAIL
 import com.app.hrcomposeapp.AppConstants.HOME_SCREEN
 import com.app.hrcomposeapp.ui.theme.HRComposeAppTheme
+import com.app.hrcomposeapp.ui.theme.customWidget.CustomTextField
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +65,6 @@ fun AppRouter() {
             EmployeeDetailScreen(navController)
         }
     }
-    //HomeScreen(navController = navController)
 }
 
 @Composable
@@ -126,30 +126,100 @@ fun EmployeeCard(name: String, navController: NavHostController) {
 
 @Composable
 fun AddEditEmployeeScreen(navController: NavHostController) {
-    /*val empName = remember { mutableStateOf(TextFieldValue("")) }
-    val empDesignation = remember { mutableStateOf(TextFieldValue("")) }
-    val empExperience = remember { mutableStateOf(TextFieldValue("")) }
-    val empCtc = remember { mutableStateOf(TextFieldValue("")) }*/
     Scaffold(
         topBar = {
             CustomToolbarWithBackArrow(title = "Add/Edit Employee", navController = navController)
         },
         content = {
-            var employeeName by remember { mutableStateOf("Dharmesh Basapati") }
-            var employeeID by remember { mutableStateOf("14077") }
-            var experience by remember { mutableStateOf("5 Yrs") }
-            var technology by remember { mutableStateOf("Android") }
             Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(20.dp),
+                        .padding(10.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
                 ) {
-                    TextField(
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth(),
+                        labelResId = R.string.emp_name,
+                        inputWrapper = "Dharmesh Basapati",
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                    )
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth(),
+                        labelResId = R.string.emp_id,
+                        inputWrapper = "12003",
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                    )
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth(),
+                        labelResId = R.string.emp_designation,
+                        inputWrapper = "Android",
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Next
+                        ),
+                    )
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth(),
+                        labelResId = R.string.emp_exp,
+                        inputWrapper = "5",
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Number,
+                            imeAction = ImeAction.Next
+                        ),
+                    )
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth(),
+                        labelResId = R.string.email_id,
+                        inputWrapper = "dharmesh@bacancy.com",
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Email,
+                            imeAction = ImeAction.Next
+                        ),
+                    )
+                    CustomTextField(
+                        modifier = Modifier
+                            .padding(all = 10.dp)
+                            .fillMaxWidth(),
+                        labelResId = R.string.phone_no,
+                        inputWrapper = "9165774390",
+                        keyboardOptions = KeyboardOptions(
+                            capitalization = KeyboardCapitalization.None,
+                            autoCorrect = false,
+                            keyboardType = KeyboardType.Phone,
+                            imeAction = ImeAction.Done
+                        ),
+                    )
+
+                    /*TextField(
                         value = employeeName,
-                        placeholder = { Text(text = "Employee Name") },
+                        label = { Text(text = "Employee Name") },
                         maxLines = 1,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
@@ -157,48 +227,10 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             keyboardType = KeyboardType.Text,
                         ),
                         modifier = Modifier
-                            .padding(all = 16.dp)
+                            .padding(all = 10.dp)
                             .fillMaxWidth(),
-                        onValueChange = {employeeName = it})
-                    Spacer(modifier = Modifier.height(10.dp))
-                    TextField(value = technology,
-                        placeholder = { Text(text = "Employee Designation") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.None,
-                            autoCorrect = false,
-                            keyboardType = KeyboardType.Text,
-                        ),
-                        modifier = Modifier
-                            .padding(all = 16.dp)
-                            .fillMaxWidth(),
-                        onValueChange = {technology = it})
-                    Spacer(modifier = Modifier.height(10.dp))
-                    TextField(value = experience,
-                        placeholder = { Text(text = "Employee Experience (in years)") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.None,
-                            autoCorrect = false,
-                            keyboardType = KeyboardType.Number,
-                        ),
-                        modifier = Modifier
-                            .padding(all = 16.dp)
-                            .fillMaxWidth(),
-                        onValueChange = {experience = it})
-                    Spacer(modifier = Modifier.height(10.dp))
-                    TextField(value = employeeID,
-                        placeholder = { Text(text = "Employee ID") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.None,
-                            autoCorrect = false,
-                            keyboardType = KeyboardType.Number,
-                        ),
-                        modifier = Modifier
-                            .padding(all = 16.dp)
-                            .fillMaxWidth(),
-                        onValueChange = {employeeID = it})
+                        onValueChange = { employeeName = it })*/
+
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = { navController.popBackStack() }) {
                         Text(text = "Add Employee", fontSize = 20.sp)

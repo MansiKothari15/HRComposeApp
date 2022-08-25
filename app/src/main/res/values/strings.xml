@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">HRComposeApp</string>
     <string name="title_activity_home">HomeActivity</string>
+
+    <string name="emp_name">Employee Name</string>
+    <string name="emp_designation">Employee Designation</string>
+    <string name="emp_exp">Employee Experience (in years)</string>
+    <string name="emp_id">Employee ID</string>
+    <string name="email_id">Email ID</string>
+    <string name="phone_no">Phone Number</string>
+
 </resources>
