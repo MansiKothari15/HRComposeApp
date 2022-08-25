@@ -4,5 +4,5 @@ This app is made for HR to perform CRUD operations on emplyees of the organizati
 * Jetpack Navigation<br />
 * Room DB<br />
 * Lifecycle Component<br />
-* Hilt dagger DI <br /><br />Hope it helps! :heart:
+* Hilt dagger DI <br />Hope it helps! :heart:
  
