@@ -82,4 +82,7 @@ dependencies {
     def coroutines_flow_version = "1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_flow_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_flow_version"
+
+    // ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1'
 }

@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.hrcomposeapp.AppConstants.ADD_EDIT_EMPLOYEE
 import com.app.hrcomposeapp.AppConstants.EMPLOYEE_DETAIL
 import com.app.hrcomposeapp.AppConstants.HOME_SCREEN
+import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.ui.theme.HRComposeAppTheme
 import com.app.hrcomposeapp.ui.theme.customWidget.CustomTextField
 
@@ -232,7 +233,19 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                         onValueChange = { employeeName = it })*/
 
                     Spacer(modifier = Modifier.height(20.dp))
-                    Button(onClick = { navController.popBackStack() }) {
+                    Button(onClick = {
+                        /*viewModel.insertProduct(
+                            Employee(
+                                1,
+                                "Dharmesh Basapati",
+                                "Android",
+                                5,
+                                "dharmesh.basapati@bcancy.com",
+                                9866092345
+                            )
+                        )*/
+                        navController.popBackStack()
+                    }) {
                         Text(text = "Add Employee", fontSize = 20.sp)
                     }
                 }

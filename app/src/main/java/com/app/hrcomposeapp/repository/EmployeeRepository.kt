@@ -1,15 +1,18 @@
 package com.app.hrcomposeapp.repository
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.database.EmployeeDao
 import kotlinx.coroutines.*
 
 class EmployeeRepository(private val employeeDao: EmployeeDao) {
+
+    val allEmployees: LiveData<List<Employee>> = employeeDao.getAllEmployees()
     val searchResults = MutableLiveData<List<Employee>>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
-    fun insertProduct(newEmployee: Employee) {
+    fun addEmployee(newEmployee: Employee) {
         coroutineScope.launch(Dispatchers.IO) {
             employeeDao.addEmployee(newEmployee)
         }

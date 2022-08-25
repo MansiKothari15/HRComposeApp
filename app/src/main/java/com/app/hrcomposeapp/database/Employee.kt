@@ -26,7 +26,7 @@ class Employee {
     var email: String = ""
 
     @ColumnInfo(name = "phoneNo")
-    var PhoneNo: Int = -1
+    var PhoneNo: Long = -1
 
     constructor() {}
 
@@ -36,7 +36,7 @@ class Employee {
         designation: String,
         experience: Int,
         Email: String,
-        PhoneNo: Int
+        PhoneNo: Long
     ) {
         this.id = id
         this.employeeName = employeeName
