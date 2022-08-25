@@ -1,5 +1,6 @@
 package com.app.hrcomposeapp
 
+import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,6 +25,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -100,6 +104,21 @@ fun HomeScreen(navController: NavHostController) {
     )
 }
 
+@Composable
+fun AddEmployee(homeViewModel: HomeViewModel = viewModel()
+) {
+    // use viewModel here
+    homeViewModel.addEmployee(
+        Employee(
+            1,
+            "Dharmesh Basapati",
+            "Android",
+            5,
+            "dharmesh.basapati@bcancy.com",
+            9866092345
+        )
+    )
+}
 
 @Composable
 fun EmployeeCard(name: String, navController: NavHostController) {
@@ -125,6 +144,7 @@ fun EmployeeCard(name: String, navController: NavHostController) {
     }
 }
 
+//homeViewModel: HomeViewModel = viewModel()
 @Composable
 fun AddEditEmployeeScreen(navController: NavHostController) {
     Scaffold(
@@ -234,7 +254,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
 
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        /*viewModel.insertProduct(
+                        /*homeViewModel.addEmployee(
                             Employee(
                                 1,
                                 "Dharmesh Basapati",
