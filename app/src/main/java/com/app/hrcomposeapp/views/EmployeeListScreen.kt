@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -90,15 +91,6 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
                 )
         ) {
             Row {
-                Image(
-                    painterResource(id = R.drawable.sample_profile_pic),
-                    contentDescription = null,
-                    Modifier
-                        .size(50.dp)
-                        .clip(RoundedCornerShape(50)),
-                    contentScale = ContentScale.Crop
-                )
-                Spacer(modifier = Modifier.width(20.dp))
                 Column {
                     Text(
                         text = employee.employeeName,
@@ -106,7 +98,6 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Serif,
                         color = Color.DarkGray,
-                        modifier = Modifier.clickable { expanded = !expanded }
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     if (expanded) {
@@ -122,4 +113,10 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun HomeScreen(){
+
 }

@@ -1,8 +1,6 @@
 package com.app.hrcomposeapp.views
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -10,16 +8,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.app.hrcomposeapp.R
 import com.app.hrcomposeapp.utils.AppConstants
 import com.app.hrcomposeapp.utils.CustomToolbarWithBackArrow
 
@@ -33,17 +28,8 @@ fun EmployeeDetailScreen(navController: NavHostController) {
             Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier.padding(20.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.Start
                 ) {
-                    Image(
-                        painterResource(id = R.drawable.sample_profile_pic),
-                        contentDescription = null,
-                        Modifier
-                            .size(140.dp)
-                            .clip(RoundedCornerShape(50)),
-                        contentScale = ContentScale.Crop
-                    )
-                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "Virat Kohli (003) ",
                         fontSize = 25.sp,
@@ -97,4 +83,10 @@ fun EmployeeDetailScreen(navController: NavHostController) {
             }
         }
     )
+}
+
+@Preview
+@Composable
+fun EmployeeDetailScreen(){
+
 }
