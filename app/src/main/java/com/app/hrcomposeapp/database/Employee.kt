@@ -10,8 +10,11 @@ data class Employee (
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
+    @ColumnInfo(name = "id")
+    var id: Int = 0,
+
     @ColumnInfo(name = "employeeId")
-    var employeeId: Int = 0,
+    var employeeId: Long = 0L,
 
     @ColumnInfo(name = "employeeName")
     var employeeName: String = "",

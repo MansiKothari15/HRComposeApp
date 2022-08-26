@@ -12,14 +12,12 @@ import androidx.compose.ui.res.stringResource
 @Composable
 fun CustomTextField(
     modifier: Modifier,
-    keyboardOptions: KeyboardOptions = remember {
-        KeyboardOptions.Default
-    },
+    keyboardOptions: KeyboardOptions = remember { KeyboardOptions.Default },
     inputWrapper: String,
     @StringRes labelResId: Int,
+    onTextChanged: (String) -> Unit
 ) {
     var fieldValue by remember { mutableStateOf(inputWrapper) }
-
     Column {
         TextField(
             value = fieldValue,
@@ -27,6 +25,9 @@ fun CustomTextField(
             maxLines = 1,
             keyboardOptions = keyboardOptions,
             modifier = modifier,
-            onValueChange = { fieldValue = it })
+            onValueChange = {
+                fieldValue = it
+                onTextChanged(it)
+            })
     }
 }

@@ -1,4 +1,4 @@
-package com.app.hrcomposeapp
+package com.app.hrcomposeapp.utils
 
 object AppConstants {
 

@@ -1,4 +1,4 @@
-package com.app.hrcomposeapp
+package com.app.hrcomposeapp.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,6 +31,7 @@ class HomeViewModel @Inject constructor(private val employeeRepository: Employee
 
     fun addEmployee(employee: Employee) {
         employeeRepository.addEmployee(employee)
+        getAllEmployees()
     }
 
 //    fun findEmployee(name: String) {
