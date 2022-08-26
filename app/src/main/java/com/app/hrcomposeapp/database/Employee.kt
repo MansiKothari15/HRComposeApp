@@ -6,43 +6,25 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "employees")
-class Employee {
+data class Employee (
 
-    @PrimaryKey(autoGenerate = false)
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "employeeId")
-    var id: Int = 0
+    var employeeId: Int = 0,
 
     @ColumnInfo(name = "employeeName")
-    var employeeName: String = ""
+    var employeeName: String = "",
 
     @ColumnInfo(name = "designation")
-    var employeeDesignation: String = ""
+    var employeeDesignation: String = "",
 
     @ColumnInfo(name = "experience")
-    var experience: Int = -1
+    var empExperience: Int = -1,
 
     @ColumnInfo(name = "email")
-    var email: String = ""
+    var empEmail: String = "",
 
     @ColumnInfo(name = "phoneNo")
-    var PhoneNo: Long = -1
-
-    constructor() {}
-
-    constructor(
-        id: Int,
-        employeeName: String,
-        designation: String,
-        experience: Int,
-        Email: String,
-        PhoneNo: Long
-    ) {
-        this.id = id
-        this.employeeName = employeeName
-        this.employeeDesignation = designation
-        this.experience = experience
-        this.email = Email
-        this.PhoneNo = PhoneNo
-    }
-}
+    var empPhoneNo: Long = -1
+)

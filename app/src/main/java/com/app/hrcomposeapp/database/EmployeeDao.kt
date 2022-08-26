@@ -18,5 +18,5 @@ interface EmployeeDao {
     fun deleteEmployee(name: String)
 
     @Query("SELECT * FROM employees")
-    fun getAllEmployees(): LiveData<List<Employee>>
+    suspend fun getAllEmployees(): List<Employee>
 }
