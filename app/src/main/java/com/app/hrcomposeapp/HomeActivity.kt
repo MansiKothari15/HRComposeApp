@@ -1,9 +1,9 @@
 package com.app.hrcomposeapp
 
-import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,6 +14,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,12 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -38,33 +36,56 @@ import com.app.hrcomposeapp.AppConstants.HOME_SCREEN
 import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.ui.theme.HRComposeAppTheme
 import com.app.hrcomposeapp.ui.theme.customWidget.CustomTextField
+import dagger.hilt.android.AndroidEntryPoint
 
+val NewEmployee: Employee = Employee(
+    employeeName = "Virat Kohli",
+    employeeDesignation = "Run Machine",
+    empExperience = 14,
+    empEmail = "viratk@gmail.com",
+    empPhoneNo = 9876543210
+)
+
+@AndroidEntryPoint
 class HomeActivity : ComponentActivity() {
+
+    private val homeViewModel: HomeViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+
         setContent {
             HRComposeAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    AppRouter()
+                    AppRouter(homeViewModel, this@HomeActivity)
                 }
             }
         }
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.getAllEmployees()
+    }
+
 }
 
-@Preview(showSystemUi = false)
+
 @Composable
-fun AppRouter() {
+fun AppRouter(homeViewModel: HomeViewModel, homeActivity: HomeActivity) {
     val navController = rememberNavController()
     NavHost(navController, startDestination = HOME_SCREEN) {
         composable(route = HOME_SCREEN) {
-            HomeScreen(navController)
+            HomeScreen(navController, homeViewModel, homeActivity)
         }
         composable(route = ADD_EDIT_EMPLOYEE) {
-            AddEditEmployeeScreen(navController)
+            AddEditEmployeeScreen(navController, homeViewModel)
         }
         composable(route = EMPLOYEE_DETAIL) {
             EmployeeDetailScreen(navController)
@@ -73,22 +94,31 @@ fun AppRouter() {
 }
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
-    val employeeList = listOf(
-        "Rohit Sharma", "KL Rahul", "Virat Kohli",
-        "Hardik Pandya", "Dinesh Karthik", "Jasprit Bumrah",
-        "Rohit Sharma", "KL Rahul", "Virat Kohli",
-        "Hardik Pandya", "Dinesh Karthik", "Jasprit Bumrah"
-    )
+fun HomeScreen(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    homeActivity: HomeActivity
+) {
+//    val employeeList = listOf(
+//        "Rohit Sharma", "KL Rahul", "Virat Kohli",
+//        "Hardik Pandya", "Dinesh Karthik", "Jasprit Bumrah",
+//        "Rohit Sharma", "KL Rahul", "Virat Kohli",
+//        "Hardik Pandya", "Dinesh Karthik", "Jasprit Bumrah"
+//    )
+
+
     Scaffold(
         topBar = {
             CustomToolbar(title = "HR Compose App")
         },
         content = {
-            Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
-                    items(items = employeeList) { empName ->
-                        EmployeeCard(name = empName, navController = navController)
+            val employeeList: List<Employee> by homeViewModel.employeeList.observeAsState(initial = listOf())
+            if (employeeList.isNotEmpty()) {
+                Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
+                    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+                        items(items = employeeList) { empName ->
+                            EmployeeCard(name = empName.employeeName, navController = navController)
+                        }
                     }
                 }
             }
@@ -101,22 +131,6 @@ fun HomeScreen(navController: NavHostController) {
                 )
             }
         }
-    )
-}
-
-@Composable
-fun AddEmployee(homeViewModel: HomeViewModel = viewModel()
-) {
-    // use viewModel here
-    homeViewModel.addEmployee(
-        Employee(
-            1,
-            "Dharmesh Basapati",
-            "Android",
-            5,
-            "dharmesh.basapati@bcancy.com",
-            9866092345
-        )
     )
 }
 
@@ -144,9 +158,8 @@ fun EmployeeCard(name: String, navController: NavHostController) {
     }
 }
 
-//homeViewModel: HomeViewModel = viewModel()
 @Composable
-fun AddEditEmployeeScreen(navController: NavHostController) {
+fun AddEditEmployeeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
     Scaffold(
         topBar = {
             CustomToolbarWithBackArrow(title = "Add/Edit Employee", navController = navController)
@@ -164,7 +177,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_name,
-                        inputWrapper = "Dharmesh Basapati",
+                        inputWrapper = "",
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
@@ -177,7 +190,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_id,
-                        inputWrapper = "12003",
+                        inputWrapper = "",
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
@@ -190,7 +203,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_designation,
-                        inputWrapper = "Android",
+                        inputWrapper = "",
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
@@ -203,7 +216,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_exp,
-                        inputWrapper = "5",
+                        inputWrapper = "",
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
@@ -216,7 +229,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.email_id,
-                        inputWrapper = "dharmesh@bacancy.com",
+                        inputWrapper = "",
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
@@ -229,7 +242,7 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.phone_no,
-                        inputWrapper = "9165774390",
+                        inputWrapper = "",
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
@@ -237,34 +250,9 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
                             imeAction = ImeAction.Done
                         ),
                     )
-
-                    /*TextField(
-                        value = employeeName,
-                        label = { Text(text = "Employee Name") },
-                        maxLines = 1,
-                        keyboardOptions = KeyboardOptions(
-                            capitalization = KeyboardCapitalization.None,
-                            autoCorrect = false,
-                            keyboardType = KeyboardType.Text,
-                        ),
-                        modifier = Modifier
-                            .padding(all = 10.dp)
-                            .fillMaxWidth(),
-                        onValueChange = { employeeName = it })*/
-
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        /*homeViewModel.addEmployee(
-                            Employee(
-                                1,
-                                "Dharmesh Basapati",
-                                "Android",
-                                5,
-                                "dharmesh.basapati@bcancy.com",
-                                9866092345
-                            )
-                        )*/
-                        navController.popBackStack()
+                        addEmployeeInDB(navController, homeViewModel)
                     }) {
                         Text(text = "Add Employee", fontSize = 20.sp)
                     }
@@ -274,6 +262,13 @@ fun AddEditEmployeeScreen(navController: NavHostController) {
     )
 }
 
+fun addEmployeeInDB(navController: NavHostController, homeViewModel: HomeViewModel) {
+    homeViewModel.addEmployee(
+        NewEmployee
+    )
+    navController.popBackStack()
+}
+
 @Composable
 fun EmployeeDetailScreen(navController: NavHostController) {
     Scaffold(
@@ -281,9 +276,7 @@ fun EmployeeDetailScreen(navController: NavHostController) {
             CustomToolbarWithBackArrow(title = "Employee Details", navController = navController)
         },
         content = {
-            Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-
-            }
+            Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {}
         }
     )
 }
@@ -293,11 +286,7 @@ fun CustomToolbarWithBackArrow(title: String, navController: NavHostController) 
     TopAppBar(
         title = { Text(text = title) },
         navigationIcon = {
-            // navigation icon is use
-            // for drawer icon.
             IconButton(onClick = { navController.popBackStack() }) {
-                // below line is use to
-                // specify navigation icon.
                 Icon(
                     Icons.Filled.ArrowBack,
                     "contentDescription",

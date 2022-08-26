@@ -8,13 +8,19 @@ import kotlinx.coroutines.*
 
 class EmployeeRepository(private val employeeDao: EmployeeDao) {
 
-    val allEmployees: LiveData<List<Employee>> = employeeDao.getAllEmployees()
-    val searchResults = MutableLiveData<List<Employee>>()
+    val allEmployees = MutableLiveData<List<Employee>>()
+    //val searchResults = MutableLiveData<List<Employee>>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun addEmployee(newEmployee: Employee) {
         coroutineScope.launch(Dispatchers.IO) {
             employeeDao.addEmployee(newEmployee)
+        }
+    }
+
+    fun getAllEmployees() {
+        coroutineScope.launch(Dispatchers.IO) {
+            allEmployees.postValue(employeeDao.getAllEmployees())
         }
     }
 
@@ -24,15 +30,15 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
         }
     }
 
-    fun findEmployee(name: String) {
-        coroutineScope.launch(Dispatchers.Main) {
-            searchResults.value = asyncFind(name).await()
-        }
-    }
+//    fun findEmployee(name: String) {
+//        coroutineScope.launch(Dispatchers.Main) {
+//            searchResults.value = asyncFind(name).await()
+//        }
+//    }
 
-    private fun asyncFind(name: String): Deferred<List<Employee>?> =
-        coroutineScope.async(Dispatchers.IO) {
-            return@async employeeDao.findEmployee(name)
-        }
+//    private fun asyncFind(name: String): Deferred<List<Employee>?> =
+//        coroutineScope.async(Dispatchers.IO) {
+//            return@async employeeDao.findEmployee(name)
+//        }
 
 }
