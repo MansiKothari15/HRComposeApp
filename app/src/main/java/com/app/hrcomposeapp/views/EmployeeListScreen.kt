@@ -105,7 +105,6 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.Serif,
                         color = Color.DarkGray,
-                        modifier = Modifier.clickable { expanded = !expanded }
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     if (expanded) {
