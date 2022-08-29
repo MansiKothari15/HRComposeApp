@@ -22,9 +22,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import androidx.navigation.navArgument
 import com.app.hrcomposeapp.R
 import com.app.hrcomposeapp.database.Employee
-import com.app.hrcomposeapp.utils.AppConstants
+import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.utils.CustomToolbar
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
@@ -51,7 +53,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navController.navigate(AppConstants.ADD_EDIT_EMPLOYEE)
+                navController.navigate(AppScreens.AddEditEmployeeScreen.route)
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -68,12 +70,7 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
     Card(
         modifier = Modifier
             .padding(10.dp)
-            .fillMaxWidth()
-            .clickable {
-                navController.navigate(
-                    AppConstants.EMPLOYEE_DETAIL
-                )
-            },
+            .fillMaxWidth(),
         shape = RoundedCornerShape(10.dp),
         backgroundColor = Color.White,
         elevation = 2.dp
@@ -81,7 +78,9 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
         Column(
             modifier = Modifier
                 .padding(20.dp)
-                .clickable { navController.navigate(AppConstants.EMPLOYEE_DETAIL) }
+                .clickable { navController.navigate(AppScreens.EmployeeDetailScreen.routeWithArgs(
+                    employee.employeeId.toString()
+                )) }
                 .animateContentSize(
                     animationSpec = spring(
                         dampingRatio = Spring.DampingRatioMediumBouncy,
@@ -90,14 +89,14 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
                 )
         ) {
             Row {
-                Image(
+                /*Image(
                     painterResource(id = R.drawable.sample_profile_pic),
                     contentDescription = null,
                     Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(50)),
                     contentScale = ContentScale.Crop
-                )
+                )*/
                 Spacer(modifier = Modifier.width(20.dp))
                 Column {
                     Text(

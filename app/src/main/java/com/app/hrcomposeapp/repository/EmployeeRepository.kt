@@ -1,15 +1,16 @@
 package com.app.hrcomposeapp.repository
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.database.EmployeeDao
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class EmployeeRepository(private val employeeDao: EmployeeDao) {
 
     val allEmployees = MutableLiveData<List<Employee>>()
-    //val searchResults = MutableLiveData<List<Employee>>()
+    val foundEmployee = MutableLiveData<Employee>()
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     fun addEmployee(newEmployee: Employee) {
@@ -30,15 +31,10 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
         }
     }
 
-//    fun findEmployee(name: String) {
-//        coroutineScope.launch(Dispatchers.Main) {
-//            searchResults.value = asyncFind(name).await()
-//        }
-//    }
-
-//    private fun asyncFind(name: String): Deferred<List<Employee>?> =
-//        coroutineScope.async(Dispatchers.IO) {
-//            return@async employeeDao.findEmployee(name)
-//        }
+    fun findEmployeeById(empId: String) {
+        coroutineScope.launch(Dispatchers.IO) {
+            foundEmployee.postValue(employeeDao.findEmployeeById(empId))
+        }
+    }
 
 }

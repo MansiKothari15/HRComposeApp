@@ -1,5 +1,6 @@
 package com.app.hrcomposeapp.views
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -30,10 +31,18 @@ var empId: String = ""
 var empName: String = ""
 
 @Composable
-fun AddEditEmployeeScreen(navController: NavHostController, homeViewModel: HomeViewModel) {
+fun AddEditEmployeeScreen(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    employeeToEdit: Employee?,
+    isEdit: Boolean?
+) {
+    if(isEdit!=null){
+        Log.d("TAG", "AddEditEmployeeScreen: $employeeToEdit")
+    }
     Scaffold(
         topBar = {
-            CustomToolbarWithBackArrow(title = "Add/Edit Employee", navController = navController)
+            CustomToolbarWithBackArrow(title = if(isEdit!=null && !isEdit) "Edit Employee" else "Add Employee", navController = navController)
         },
         content = {
             Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {

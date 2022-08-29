@@ -12,36 +12,24 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val employeeRepository: EmployeeRepository) :
     ViewModel() {
 
-    init {
-
-    }
-
     fun getAllEmployees(){
         employeeRepository.getAllEmployees()
     }
-
-    //private var allEmployees = MutableLiveData<List<Employee>>()
-//        private var searchResults: MutableLiveData<List<Employee>>
-//
-//        init {
-//
-//            allEmployees = employeeRepository.allEmployees
-//            searchResults = employeeRepository.searchResults
-//        }`
-
     fun addEmployee(employee: Employee) {
         employeeRepository.addEmployee(employee)
         getAllEmployees()
     }
 
-//    fun findEmployee(name: String) {
-//        employeeRepository.findEmployee(name)
-//    }
+    fun findEmployeeById(empId: String) {
+        employeeRepository.findEmployeeById(empId)
+    }
 
     fun deleteEmployee(name: String) {
         employeeRepository.deleteEmployee(name)
     }
 
     val employeeList: LiveData<List<Employee>> = employeeRepository.allEmployees
+
+    val foundEmployee: LiveData<Employee> = employeeRepository.foundEmployee
 
 }
