@@ -40,7 +40,7 @@ fun CustomTextField(
                 onDone = {
                     focusManager.clearFocus()
                 }
-            )
+            ),
         )
 
     }

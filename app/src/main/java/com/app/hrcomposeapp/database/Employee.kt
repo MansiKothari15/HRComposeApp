@@ -6,11 +6,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
-import java.io.Serializable
 
 @Parcelize
 @Entity(tableName = "employees")
-data class Employee (
+data class Employee(
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
@@ -27,7 +26,7 @@ data class Employee (
     var employeeDesignation: String,
 
     @ColumnInfo(name = "experience")
-    var empExperience: Int,
+    var empExperience: Float,
 
     @ColumnInfo(name = "email")
     var empEmail: String,

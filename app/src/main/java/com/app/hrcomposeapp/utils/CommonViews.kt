@@ -1,5 +1,7 @@
 package com.app.hrcomposeapp.utils
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -31,4 +33,8 @@ fun CustomToolbar(title: String) {
     TopAppBar(
         title = { Text(text = title) },
     )
+}
+
+fun toast(context: Context, message: String){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
