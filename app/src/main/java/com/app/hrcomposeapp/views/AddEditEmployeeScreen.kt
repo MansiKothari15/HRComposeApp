@@ -97,7 +97,7 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-
+                        maxLength = 100
                         ) {
                         isEdited = true
                         empName = it }
@@ -113,6 +113,7 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
                         ),
+                        maxLength = 5
                     ) {
                         isEdited = true
                         empId = it }
@@ -128,6 +129,7 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
+                        maxLength = 100
                     ) {
                         isEdited = true
                         empDesignation = it }
@@ -143,6 +145,7 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
                         ),
+                        maxLength = 3
                     ) {
                         isEdited = true
                         empExp = it }
@@ -158,6 +161,7 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
                         ),
+                        maxLength = 100
                     ) {
                         isEdited = true
                         empEmailId = it }
@@ -173,6 +177,7 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Phone,
                             imeAction = ImeAction.Done,
                         ),
+                        maxLength = 10
                     ) {
                         isEdited = true
                         empPhoneNumber = it }

@@ -18,6 +18,7 @@ fun CustomTextField(
     keyboardOptions: KeyboardOptions = remember { KeyboardOptions.Default },
     inputWrapper: String,
     @StringRes labelResId: Int,
+    maxLength: Int,
     onTextChanged: (String) -> Unit
 ) {
     var fieldValue by remember { mutableStateOf(inputWrapper) }
@@ -30,10 +31,13 @@ fun CustomTextField(
             keyboardOptions = keyboardOptions,
             modifier = modifier,
             onValueChange = {
-                fieldValue = it
-                onTextChanged(it)
+                if (it.length <= maxLength) {
+                    fieldValue = it
+                    //text = value.filter { it.isDigit() }
+                    onTextChanged(it)
+                }
             },
-            keyboardActions = KeyboardActions (
+            keyboardActions = KeyboardActions(
                 onNext = {
                     focusManager.moveFocus(FocusDirection.Down)
                 },
