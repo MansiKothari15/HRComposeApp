@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import com.app.hrcomposeapp.R
 import com.app.hrcomposeapp.database.Employee
@@ -34,11 +35,9 @@ fun EmployeeDetailScreen(
     empId: String?
 ) {
 
-    val openDialog = remember { mutableStateOf(false)  }
-
     homeViewModel.findEmployeeById(empId!!)
-
     val selectedEmployee = homeViewModel.foundEmployee.observeAsState().value
+    val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -89,10 +88,20 @@ fun EmployeeDetailScreen(
                         color = Color.DarkGray,
                     )
                     Spacer(modifier = Modifier.weight(1f))
-                    Row {
+                    Row() {
+                        if (showDialog.value) {
+                            Alert(navController,
+                                homeViewModel,
+                                selectedEmployee,
+                                name = "Are you sure you want to delete the employee?",
+                                showDialog = showDialog.value,
+                                onDismiss = { showDialog.value = false })
+                        }
                         Button(
                             onClick = {
-                                openDialog.value = true
+                                showDialog.value = true
+                                /*homeViewModel.deleteEmployee(selectedEmployee)
+                                navController.popBackStack()*/
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -113,51 +122,41 @@ fun EmployeeDetailScreen(
                 }
             }
         }
-        if(openDialog.value){
-            CustomAlertDialog(
-                alertMsg = "Are you sure you want to delete this employee?",
-                homeViewModel = homeViewModel,
-                navController = navController,
-                selectedEmployee = selectedEmployee!!
-            )
-        }
-    }
 
+    }
 }
 
 @Composable
-fun CustomAlertDialog(
-    alertMsg: String,
-    homeViewModel: HomeViewModel,
+fun Alert(
     navController: NavHostController,
+    homeViewModel: HomeViewModel,
     selectedEmployee: Employee,
-    modifier: Modifier = Modifier
-){
-    val mContext = LocalContext.current
-    AlertDialog(
-        onDismissRequest = {
-            // Dismiss the dialog when the user clicks outside the dialog or on the back
-            // button. If you want to disable that functionality, simply use an empty
-            // onCloseRequest.
-            //openDialog.value = false
-        },
-        title = { Text("Alert") },
-        text = { Text(alertMsg) },
-        modifier = modifier,
-        dismissButton = {
-            TextButton(onClick = { }) {
-                Text(text = "No")
+    name: String,
+    showDialog: Boolean,
+    onDismiss: () -> Unit
+) {
+    if (showDialog) {
+        AlertDialog(
+            title = {
+                Text("Alert")
+            },
+            text = {
+                Text(text = name)
+            },
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                TextButton(onClick = {
+                    homeViewModel.deleteEmployee(selectedEmployee)
+                    navController.popBackStack()
+                }) {
+                    Text("DELETE")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text("Cancel")
+                }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = {
-                homeViewModel.deleteEmployee(selectedEmployee)
-                toast(mContext, "Employee Deleted Successfully !!!")
-                navController.popBackStack()
-
-            }) {
-                Text(text = "Yes")
-            }
-        }
-    )
+        )
+    }
 }
