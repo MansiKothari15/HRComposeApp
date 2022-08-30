@@ -15,8 +15,14 @@ class HomeViewModel @Inject constructor(private val employeeRepository: Employee
     fun getAllEmployees(){
         employeeRepository.getAllEmployees()
     }
+
     fun addEmployee(employee: Employee) {
         employeeRepository.addEmployee(employee)
+        getAllEmployees()
+    }
+
+    fun updateEmployeeDetails(employee: Employee) {
+        employeeRepository.updateEmployeeDetails(employee)
         getAllEmployees()
     }
 
@@ -24,8 +30,9 @@ class HomeViewModel @Inject constructor(private val employeeRepository: Employee
         employeeRepository.findEmployeeById(empId)
     }
 
-    fun deleteEmployee(name: String) {
-        employeeRepository.deleteEmployee(name)
+    fun deleteEmployee(employee: Employee) {
+        employeeRepository.deleteEmployee(employee)
+        getAllEmployees()
     }
 
     val employeeList: LiveData<List<Employee>> = employeeRepository.allEmployees

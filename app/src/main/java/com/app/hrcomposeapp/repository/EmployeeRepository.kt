@@ -19,15 +19,21 @@ class EmployeeRepository(private val employeeDao: EmployeeDao) {
         }
     }
 
+    fun updateEmployeeDetails(newEmployee: Employee) {
+        coroutineScope.launch(Dispatchers.IO) {
+            employeeDao.updateEmployeeDetails(newEmployee)
+        }
+    }
+
     fun getAllEmployees() {
         coroutineScope.launch(Dispatchers.IO) {
             allEmployees.postValue(employeeDao.getAllEmployees())
         }
     }
 
-    fun deleteEmployee(name: String) {
+    fun deleteEmployee(employee: Employee) {
         coroutineScope.launch(Dispatchers.IO) {
-            employeeDao.deleteEmployee(name)
+            employeeDao.deleteEmployee(employee)
         }
     }
 

@@ -29,10 +29,4 @@ class HomeActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d("TAG", "onResume: Called")
-        homeViewModel.getAllEmployees()
-    }
 }

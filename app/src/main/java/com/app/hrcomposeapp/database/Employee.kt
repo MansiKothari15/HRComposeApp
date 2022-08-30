@@ -1,34 +1,37 @@
 package com.app.hrcomposeapp.database
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
+@Parcelize
 @Entity(tableName = "employees")
 data class Employee (
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     @NonNull
     @ColumnInfo(name = "id")
-    var id: Int = 0,
+    var id: Int,
 
     @ColumnInfo(name = "employeeId")
-    var employeeId: Long = 0L,
+    var employeeId: Long,
 
     @ColumnInfo(name = "employeeName")
-    var employeeName: String = "",
+    var employeeName: String,
 
     @ColumnInfo(name = "designation")
-    var employeeDesignation: String = "",
+    var employeeDesignation: String,
 
     @ColumnInfo(name = "experience")
-    var empExperience: Int = -1,
+    var empExperience: Int,
 
     @ColumnInfo(name = "email")
-    var empEmail: String = "",
+    var empEmail: String,
 
     @ColumnInfo(name = "phoneNo")
-    var empPhoneNo: Long = -1
-): Serializable
+    var empPhoneNo: Long
+): Parcelable

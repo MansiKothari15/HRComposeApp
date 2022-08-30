@@ -35,6 +35,7 @@ fun HomeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
 ) {
+    homeViewModel.getAllEmployees()
     Scaffold(
         topBar = {
             CustomToolbar(title = "HR Compose App")
@@ -53,7 +54,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navController.navigate(AppScreens.AddEditEmployeeScreen.route)
+                navController.navigate(AppScreens.AddEditEmployeeScreen.route + "/" + "0" + "/" + false)
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_add_24),
@@ -66,7 +67,7 @@ fun HomeScreen(
 
 @Composable
 fun EmployeeCard(employee: Employee, navController: NavHostController) {
-    var expanded by remember { mutableStateOf(true) }
+    val expanded by remember { mutableStateOf(true) }
     Card(
         modifier = Modifier
             .padding(10.dp)

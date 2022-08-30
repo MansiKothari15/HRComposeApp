@@ -1,16 +1,28 @@
 package com.app.hrcomposeapp.views
 
-import android.util.Log
+import android.content.Context
+import android.widget.Toast
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,26 +42,50 @@ var empDesignation: String = ""
 var empId: String = ""
 var empName: String = ""
 
+
+
 @Composable
 fun AddEditEmployeeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
-    employeeToEdit: Employee?,
-    isEdit: Boolean?
+    employeeToEdit: String?,
+    isEdit: Boolean
 ) {
-    if(isEdit!=null){
-        Log.d("TAG", "AddEditEmployeeScreen: $employeeToEdit")
+    lateinit var selectedEmployee: Employee
+    val mContext = LocalContext.current
+    clearAll()
+    if (isEdit) {
+        homeViewModel.findEmployeeById(employeeToEdit!!)
+        selectedEmployee = homeViewModel.foundEmployee.observeAsState().value!!
+        empId = selectedEmployee.employeeId.toString()
+        empName = selectedEmployee.employeeName
+        empDesignation = selectedEmployee.employeeDesignation
+        empExp = selectedEmployee.empExperience.toString()
+        empEmailId = selectedEmployee.empEmail
+        empPhoneNumber = selectedEmployee.empPhoneNo.toString()
     }
+    val scrollState = rememberScrollState()
+
+    var isEdited by remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
-            CustomToolbarWithBackArrow(title = if(isEdit!=null && !isEdit) "Edit Employee" else "Add Employee", navController = navController)
+            CustomToolbarWithBackArrow(
+                title = if (isEdit) "Edit Employee" else "Add Employee",
+                navController = navController
+            )
         },
         content = {
-            Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
+            Surface(
+                color = Color.White,
+                modifier = Modifier
+                    .fillMaxSize()
+
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(10.dp),
+                        .padding(10.dp)
+                        .verticalScroll(state = scrollState),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     CustomTextField(
@@ -57,93 +93,119 @@ fun AddEditEmployeeScreen(
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_name,
-                        inputWrapper = "",
+                        inputWrapper = empName,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-                    ) { empName = it }
+
+                        ) {
+                        isEdited = true
+                        empName = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_id,
-                        inputWrapper = "",
+                        inputWrapper = empId,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
                         ),
-                    ) { empId = it }
+                    ) {
+                        isEdited = true
+                        empId = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_designation,
-                        inputWrapper = "",
+                        inputWrapper = empDesignation,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-                    ) { empDesignation = it }
+                    ) {
+                        isEdited = true
+                        empDesignation = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.emp_exp,
-                        inputWrapper = "",
+                        inputWrapper = empExp,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
                         ),
-                    ) { empExp = it }
+                    ) {
+                        isEdited = true
+                        empExp = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.email_id,
-                        inputWrapper = "",
+                        inputWrapper = empEmailId,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
                         ),
-                    ) { empEmailId = it }
+                    ) {
+                        isEdited = true
+                        empEmailId = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
                             .fillMaxWidth(),
                         labelResId = R.string.phone_no,
-                        inputWrapper = "",
+                        inputWrapper = empPhoneNumber,
                         keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.None,
                             autoCorrect = false,
                             keyboardType = KeyboardType.Phone,
                             imeAction = ImeAction.Done
                         ),
-                    ) { empPhoneNumber = it }
+                    ) {
+                        isEdited = true
+                        empPhoneNumber = it }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        val employee = Employee(
-                            employeeId = empId.toLong(),
-                            employeeName = empName,
-                            employeeDesignation = empDesignation,
-                            empExperience = empExp.toInt(),
-                            empEmail = empEmailId,
-                            empPhoneNo = empPhoneNumber.toLong()
-                        )
+                        if(isEdited){
 
-                        addEmployeeInDB(navController, employee, homeViewModel)
+                            val employee = Employee(
+                                id = if (isEdit) selectedEmployee.id else empId.toInt(),
+                                employeeId = empId.toLong(),
+                                employeeName = empName,
+                                employeeDesignation = empDesignation,
+                                empExperience = empExp.toInt(),
+                                empEmail = empEmailId,
+                                empPhoneNo = empPhoneNumber.toLong()
+                            )
+                            if (isEdit) {
+                                updateEmployeeInDB(mContext,navController, employee, homeViewModel)
+                            } else {
+                                addEmployeeInDB(mContext,navController, employee, homeViewModel)
+                            }
+                            clearAll()
+                        }else{
+                            toast(mContext,"Please add or update something...")
+                        }
                     }) {
-                        Text(text = "Add Employee", fontSize = 20.sp)
+                        Text(
+                            text = if (isEdit) "Update Details" else "Add Employee",
+                            fontSize = 20.sp
+                        )
                     }
                 }
             }
@@ -151,11 +213,37 @@ fun AddEditEmployeeScreen(
     )
 }
 
+fun clearAll() {
+    empId = ""
+    empName = ""
+    empDesignation = ""
+    empExp = ""
+    empEmailId = ""
+    empPhoneNumber = ""
+}
+
 fun addEmployeeInDB(
+    context: Context,
     navController: NavHostController,
     employee: Employee,
     homeViewModel: HomeViewModel
 ) {
     homeViewModel.addEmployee(employee)
+    toast(context,"Employee Added !!!")
     navController.popBackStack()
+}
+
+fun updateEmployeeInDB(
+    context: Context,
+    navController: NavHostController,
+    employee: Employee,
+    homeViewModel: HomeViewModel
+) {
+    homeViewModel.updateEmployeeDetails(employee)
+    toast(context,"Employee Details Updated !!!")
+    navController.popBackStack()
+}
+
+private fun toast(context: Context,message: String){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }

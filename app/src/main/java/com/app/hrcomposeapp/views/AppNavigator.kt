@@ -6,7 +6,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
@@ -19,20 +18,20 @@ fun AppRouter(homeViewModel: HomeViewModel) {
         composable(route = AppScreens.HomeScreen.route) {
             HomeScreen(navController, homeViewModel)
         }
-        composable(route = AppScreens.AddEditEmployeeScreen.route + "/{employeeToEdit}/{isEdit}",
+        composable(route = AppScreens.AddEditEmployeeScreen.route + "/{empId}/{isEdit}",
             arguments = listOf(
-                navArgument("employeeToEdit") {
-                    type = NavType.SerializableType(Employee::class.java)
-                    nullable = true
+                navArgument("empId") {
+                    type = NavType.StringType
+                    defaultValue = ""
                 },
                 navArgument("isEdit") {
                     type = NavType.BoolType
                     defaultValue = false
                 }
             )) {
-            val isEdit = navController.previousBackStackEntry?.arguments?.getBoolean("isEdit")
-            val employeeToEdit = navController.previousBackStackEntry?.arguments?.getSerializable("employeeToEdit") as Employee?
-            AddEditEmployeeScreen(navController, homeViewModel,employeeToEdit,isEdit)
+            val isEdit = it.arguments?.getBoolean("isEdit")
+            val empId = it.arguments?.getString("empId")
+            AddEditEmployeeScreen(navController, homeViewModel,empId,isEdit!!)
         }
         composable(route = AppScreens.EmployeeDetailScreen.route + "/{empId}",
             arguments = listOf(
