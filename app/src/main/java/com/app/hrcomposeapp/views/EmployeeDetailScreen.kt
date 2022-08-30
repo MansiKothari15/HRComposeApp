@@ -3,12 +3,11 @@ package com.app.hrcomposeapp.views
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,8 +17,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import com.app.hrcomposeapp.R
+import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.utils.CustomToolbarWithBackArrow
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
@@ -33,6 +34,7 @@ fun EmployeeDetailScreen(
 
     homeViewModel.findEmployeeById(empId!!)
     val selectedEmployee = homeViewModel.foundEmployee.observeAsState().value
+    val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -84,10 +86,19 @@ fun EmployeeDetailScreen(
                     )
                     Spacer(modifier = Modifier.weight(1f))
                     Row() {
+                        if (showDialog.value) {
+                            Alert(navController,
+                                homeViewModel,
+                                selectedEmployee,
+                                name = "Are you sure you want to delete the employee?",
+                                showDialog = showDialog.value,
+                                onDismiss = { showDialog.value = false })
+                        }
                         Button(
                             onClick = {
-                                homeViewModel.deleteEmployee(selectedEmployee)
-                                navController.popBackStack()
+                                showDialog.value = true
+                                /*homeViewModel.deleteEmployee(selectedEmployee)
+                                navController.popBackStack()*/
                             },
                             modifier = Modifier
                                 .weight(1f)
@@ -109,5 +120,40 @@ fun EmployeeDetailScreen(
             }
         }
 
+    }
+}
+
+@Composable
+fun Alert(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    selectedEmployee: Employee,
+    name: String,
+    showDialog: Boolean,
+    onDismiss: () -> Unit
+) {
+    if (showDialog) {
+        AlertDialog(
+            title = {
+                Text("Alert")
+            },
+            text = {
+                Text(text = name)
+            },
+            onDismissRequest = onDismiss,
+            confirmButton = {
+                TextButton(onClick = {
+                    homeViewModel.deleteEmployee(selectedEmployee)
+                    navController.popBackStack()
+                }) {
+                    Text("DELETE")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismiss) {
+                    Text("Cancel")
+                }
+            }
+        )
     }
 }

@@ -184,7 +184,7 @@ fun AddEditEmployeeScreen(
                         if(isEdited){
 
                             val employee = Employee(
-                                id = if (isEdit) selectedEmployee.id else empId.toInt(),
+                                id = if (isEdit) selectedEmployee.id else empId.trim().toInt(),
                                 employeeId = empId.toLong(),
                                 employeeName = empName,
                                 employeeDesignation = empDesignation,
@@ -229,7 +229,7 @@ fun addEmployeeInDB(
     homeViewModel: HomeViewModel
 ) {
     homeViewModel.addEmployee(employee)
-    toast(context,"Employee Added !!!")
+//    toast(context,"Employee Added !!!")
     navController.popBackStack()
 }
 
@@ -240,7 +240,7 @@ fun updateEmployeeInDB(
     homeViewModel: HomeViewModel
 ) {
     homeViewModel.updateEmployeeDetails(employee)
-    toast(context,"Employee Details Updated !!!")
+//    toast(context,"Employee Details Updated !!!")
     navController.popBackStack()
 }
 
