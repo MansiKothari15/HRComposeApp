@@ -205,7 +205,7 @@ fun AddEditEmployeeScreen(
                         }
                     }) {
                         Text(
-                            text = if (isEdit) "Update Details" else "Add Employee",
+                            text = if (isEdit) "Update Details" else "Add",
                             fontSize = 20.sp
                         )
                     }

@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -55,7 +56,9 @@ fun HomeScreen(
                 }
             } else {
                 Column(
-                    modifier = Modifier.fillMaxSize().padding(20.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(20.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -65,7 +68,9 @@ fun HomeScreen(
                         color = Color.Gray,
                         fontFamily = FontFamily.Monospace,
                         fontSize = 20.sp,
-                        modifier = Modifier.wrapContentWidth().wrapContentHeight(),
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .wrapContentHeight(),
                         textAlign = TextAlign.Center
                     )
                 }
@@ -77,7 +82,7 @@ fun HomeScreen(
             }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                    contentDescription = null
+                    contentDescription = stringResource(id = R.string.desc_add_fab)
                 )
             }
         }

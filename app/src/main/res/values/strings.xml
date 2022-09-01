@@ -8,5 +8,7 @@
     <string name="emp_id">Employee ID</string>
     <string name="email_id">Email ID</string>
     <string name="phone_no">Phone Number</string>
+    <string name="desc_add_fab">Add FAB</string>
+    <string name="add_employee">Add Employee</string>
 
 </resources>
