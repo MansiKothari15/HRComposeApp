@@ -64,7 +64,6 @@ fun HomeScreen(
                 ) {
                     Text(
                         "Sadly, there are no employees in your company.",
-                        color = Color.Gray,
                         fontSize = 20.sp,
                         modifier = Modifier
                             .wrapContentWidth()
@@ -95,7 +94,7 @@ fun HomeScreen(
                     )
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        "Add New Employee", color = Color.Black
+                        "Add New Employee",
                     )
                 }
             }
@@ -149,14 +148,12 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
                     Text(
                         text = employee.employeeName,
                         fontSize = 18.sp,
-                        color = Color.DarkGray,
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     if (expanded) {
                         Text(
                             text = employee.employeeDesignation,
                             fontSize = 14.sp,
-                            color = Color.Gray,
                         )
                     }
                 }
