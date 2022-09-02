@@ -4,13 +4,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00FFFFFF</color>
 
-    <color name="primaryColor">#234e70</color>
-    <color name="primaryLightColor">#537a9f</color>
-    <color name="primaryDarkColor">#002645</color>
-    <color name="secondaryColor">#fbf8be</color>
-    <color name="secondaryLightColor">#fffff1</color>
-    <color name="secondaryDarkColor">#c7c58d</color>
-    <color name="primaryTextColor">#ffffff</color>
+    <color name="primaryColor">#1dc391</color>
+    <color name="primaryLightColor">#64f7c1</color>
+    <color name="primaryDarkColor">#009163</color>
+    <color name="secondaryColor">#f8ca41</color>
+    <color name="secondaryLightColor">#fffd74</color>
+    <color name="secondaryDarkColor">#c19a00</color>
+    <color name="primaryTextColor">#000000</color>
     <color name="secondaryTextColor">#000000</color>
 
 </resources>
