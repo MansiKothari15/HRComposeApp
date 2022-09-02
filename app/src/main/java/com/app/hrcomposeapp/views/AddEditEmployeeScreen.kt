@@ -3,14 +3,19 @@ package com.app.hrcomposeapp.views
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -94,10 +99,9 @@ fun AddEditEmployeeScreen(
                             imeAction = ImeAction.Next
                         ),
                         maxLength = 100
-                    ) {
+                        ) {
                         isEdited = true
-                        empName = it
-                    }
+                        empName = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -130,8 +134,7 @@ fun AddEditEmployeeScreen(
                         maxLength = 100
                     ) {
                         isEdited = true
-                        empDesignation = it
-                    }
+                        empDesignation = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -147,8 +150,7 @@ fun AddEditEmployeeScreen(
                         maxLength = 3
                     ) {
                         isEdited = true
-                        empExp = it
-                    }
+                        empExp = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -164,8 +166,7 @@ fun AddEditEmployeeScreen(
                         maxLength = 100
                     ) {
                         isEdited = true
-                        empEmailId = it
-                    }
+                        empEmailId = it }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -181,11 +182,10 @@ fun AddEditEmployeeScreen(
                         maxLength = 10
                     ) {
                         isEdited = true
-                        empPhoneNumber = it
-                    }
+                        empPhoneNumber = it }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        if (isEdited) {
+                        if(isEdited){
 
                             val employee = Employee(
                                 id = if (isEdit) selectedEmployee.id else empId.trim().toInt(),
@@ -197,13 +197,13 @@ fun AddEditEmployeeScreen(
                                 empPhoneNo = empPhoneNumber.toLong()
                             )
                             if (isEdit) {
-                                updateEmployeeInDB(mContext, navController, employee, homeViewModel)
+                                updateEmployeeInDB(mContext,navController, employee, homeViewModel)
                             } else {
-                                addEmployeeInDB(mContext, navController, employee, homeViewModel)
+                                addEmployeeInDB(mContext,navController, employee, homeViewModel)
                             }
                             clearAll()
-                        } else {
-                            toast(mContext, "Please add or update something...")
+                        }else{
+                            toast(mContext,"Please add or update something...")
                         }
                     }) {
                         Text(

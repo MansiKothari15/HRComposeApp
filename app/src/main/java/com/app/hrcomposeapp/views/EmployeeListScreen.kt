@@ -3,6 +3,7 @@ package com.app.hrcomposeapp.views
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,12 +17,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -76,12 +83,23 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 navController.navigate(AppScreens.AddEditEmployeeScreen.route + "/" + "0" + "/" + false)
-            }) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                    contentDescription = stringResource(id = R.string.desc_add_fab)
-                )
+            }, shape = RoundedCornerShape(20.dp)) {
+                Row(modifier = Modifier.padding(10.dp),verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(
+                            colorResource(id = R.color.black),
+                        ),
+                        modifier = Modifier
+                            .size(25.dp)
+                            .clip(RoundedCornerShape(50)),
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    Text("Add New Employee", fontWeight = FontWeight.SemiBold, color = Color.Black )
+                }
             }
+
         }
     )
 }
@@ -115,14 +133,17 @@ fun EmployeeCard(employee: Employee, navController: NavHostController) {
                 )
         ) {
             Row {
-                /*Image(
-                    painterResource(id = R.drawable.sample_profile_pic),
+                Image(
+                    painter = painterResource(id = R.drawable.ic_baseline_person_pin_24),
                     contentDescription = null,
-                    Modifier
+                    contentScale = ContentScale.Crop,
+                    colorFilter = ColorFilter.tint(
+                        colorResource(id = R.color.primaryColor),
+                    ),
+                    modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(50)),
-                    contentScale = ContentScale.Crop
-                )*/
+                )
                 Spacer(modifier = Modifier.width(20.dp))
                 Column {
                     Text(

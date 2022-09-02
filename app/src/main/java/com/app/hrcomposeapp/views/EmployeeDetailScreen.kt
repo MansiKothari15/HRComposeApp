@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -74,6 +75,7 @@ fun EmployeeDetailScreen(
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,
+                            textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
@@ -152,7 +154,7 @@ fun Alert(
     if (showDialog) {
         AlertDialog(
             title = {
-                Text("Alert")
+                Text("Delete Employee")
             },
             text = {
                 Text(text = name)
@@ -168,7 +170,7 @@ fun Alert(
             },
             dismissButton = {
                 TextButton(onClick = onDismiss) {
-                    Text("Cancel")
+                    Text("CANCEL")
                 }
             }
         )
