@@ -74,7 +74,6 @@ fun EmployeeDetailScreen(
                             text = "#${selectedEmployee.employeeId} - ${selectedEmployee.employeeName}",
                             fontSize = 25.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.Black,
                             textAlign = TextAlign.Center
                         )
                         Spacer(modifier = Modifier.height(10.dp))
@@ -82,21 +81,18 @@ fun EmployeeDetailScreen(
                             text = "(${selectedEmployee.employeeDesignation})",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color.DarkGray,
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = "Having ${selectedEmployee.empExperience} years of experience",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color.DarkGray,
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
                             text = "${selectedEmployee.empEmail} | ${selectedEmployee.empPhoneNo}",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.SemiBold,
-                            color = Color.DarkGray,
                         )
                         Spacer(modifier = Modifier.weight(1f))
                         Row() {
@@ -119,7 +115,6 @@ fun EmployeeDetailScreen(
                             ) {
                                 Text(
                                     text = "Delete Employee",
-                                    color = Color.White,
                                     fontSize = 16.sp,
                                 )
                             }
@@ -131,7 +126,7 @@ fun EmployeeDetailScreen(
                                 modifier = Modifier
                                     .weight(1f)
                             ) {
-                                Text(text = "Update Details", color = Color.White, fontSize = 16.sp)
+                                Text(text = "Update Details", fontSize = 16.sp)
                             }
                         }
                     }
@@ -154,7 +149,7 @@ fun Alert(
     if (showDialog) {
         AlertDialog(
             title = {
-                Text("Delete Employee")
+                Text("Delete Employee", style = MaterialTheme.typography.body2)
             },
             text = {
                 Text(text = name)
