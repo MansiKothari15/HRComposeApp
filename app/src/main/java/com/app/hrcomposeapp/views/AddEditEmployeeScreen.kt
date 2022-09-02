@@ -3,6 +3,7 @@ package com.app.hrcomposeapp.views
 import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -203,9 +204,9 @@ fun AddEditEmployeeScreen(
                         }else{
                             toast(mContext,"Please add or update something...")
                         }
-                    }) {
+                    }, shape = RoundedCornerShape(30.dp)) {
                         Text(
-                            text = if (isEdit) "Update Details" else "Add",
+                            text = if (isEdit) "Update Details" else "Add Employee",
                             fontSize = 20.sp
                         )
                     }
