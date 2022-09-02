@@ -2,10 +2,10 @@ package com.app.hrcomposeapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val PrimaryColor = Color(0xFF1e88e5)
-val PrimaryDarkColor = Color(0xFF005cb2)
+val PrimaryColor = Color(0xFF546E7A)
+val PrimaryDarkColor = Color(0xFF29434E)
 val ColorOnPrimary = Color(0xFFFFFFFF)
 
-val SecondaryColor = Color(0xFF00acc1)
-val SecondaryDarkColor = Color(0xFF007c91)
+val SecondaryColor = Color(0xFF90A4AE)
+val SecondaryDarkColor = Color(0xFF62757F)
 val ColorOnSecondary = Color(0xFF000000)

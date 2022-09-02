@@ -1,10 +1,7 @@
 package com.app.hrcomposeapp
 
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.app.hrcomposeapp.views.HomeActivity
 import org.junit.Rule
@@ -25,6 +22,15 @@ class HomeActivityTest {
         val addEmployeeText = composeTestRule.activity.getString(R.string.add_employee)
         composeTestRule.onNodeWithContentDescription(addFABText).performClick()
         composeTestRule.onNodeWithText(addEmployeeText, useUnmergedTree = true).assertIsDisplayed()
+    }
+
+    @Test
+    fun givenAnEmployeeList_whenWeClickEachItem_thenItemDetailIsDisplayed() {
+
+        /*composeTestRule.onClickableTextItem("Item 1").performClick()
+
+        composeTestRule.onList().assertDoesNotExist()*/
+
     }
 
 }

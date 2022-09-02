@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
@@ -24,7 +25,7 @@ fun CustomTextField(
     var fieldValue by remember { mutableStateOf(inputWrapper) }
     val focusManager = LocalFocusManager.current
     Column {
-        TextField(
+        OutlinedTextField(
             value = fieldValue,
             label = { Text(stringResource(labelResId)) },
             maxLines = 1,
