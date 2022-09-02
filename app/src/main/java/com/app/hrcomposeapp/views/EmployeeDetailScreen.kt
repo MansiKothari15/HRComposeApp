@@ -39,13 +39,6 @@ fun EmployeeDetailScreen(
     homeViewModel.findEmployeeById(empId!!)
     val selectedEmployee = homeViewModel.foundEmployee.observeAsState().value
     val showDialog = remember { mutableStateOf(false) }
-    var selectImages by remember { mutableStateOf(listOf<Uri>()) }
-
-    val galleryLauncher =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) {
-            selectImages = it
-        }
-
 
     Scaffold(
         topBar = {
@@ -76,7 +69,6 @@ fun EmployeeDetailScreen(
                             ),
                             modifier = Modifier
                                 .size(140.dp)
-                                .clickable { galleryLauncher.launch("image/*")  }
                                 .clip(RoundedCornerShape(50)),
                         )
                         Spacer(modifier = Modifier.height(10.dp))
