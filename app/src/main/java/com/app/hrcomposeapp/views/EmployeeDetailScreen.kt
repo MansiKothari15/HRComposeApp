@@ -1,13 +1,15 @@
 package com.app.hrcomposeapp.views
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +39,13 @@ fun EmployeeDetailScreen(
     homeViewModel.findEmployeeById(empId!!)
     val selectedEmployee = homeViewModel.foundEmployee.observeAsState().value
     val showDialog = remember { mutableStateOf(false) }
+    var selectImages by remember { mutableStateOf(listOf<Uri>()) }
+
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.GetMultipleContents()) {
+            selectImages = it
+        }
+
 
     Scaffold(
         topBar = {
@@ -67,6 +76,7 @@ fun EmployeeDetailScreen(
                             ),
                             modifier = Modifier
                                 .size(140.dp)
+                                .clickable { galleryLauncher.launch("image/*")  }
                                 .clip(RoundedCornerShape(50)),
                         )
                         Spacer(modifier = Modifier.height(10.dp))
