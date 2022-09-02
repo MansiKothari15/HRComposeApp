@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -26,7 +27,7 @@ fun CustomTextField(
     Column {
         OutlinedTextField(
             value = fieldValue,
-            label = { Text(stringResource(labelResId)) },
+            label = { Text(stringResource(labelResId), style = MaterialTheme.typography.caption) },
             maxLines = 1,
             keyboardOptions = keyboardOptions,
             modifier = modifier,
