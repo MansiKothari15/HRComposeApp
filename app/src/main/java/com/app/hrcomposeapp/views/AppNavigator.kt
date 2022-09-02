@@ -31,7 +31,7 @@ fun AppRouter(homeViewModel: HomeViewModel) {
             )) {
             val isEdit = it.arguments?.getBoolean("isEdit")
             val empId = it.arguments?.getString("empId")
-            AddEditEmployeeScreen(navController, homeViewModel,empId,isEdit!!)
+            AddEditEmployeeScreen(navController, homeViewModel, empId, isEdit!!)
         }
         composable(route = AppScreens.EmployeeDetailScreen.route + "/{empId}",
             arguments = listOf(

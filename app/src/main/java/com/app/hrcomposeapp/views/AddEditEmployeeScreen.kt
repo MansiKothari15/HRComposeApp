@@ -9,12 +9,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -38,7 +35,6 @@ var empExp: String = ""
 var empDesignation: String = ""
 var empId: String = ""
 var empName: String = ""
-
 
 
 @Composable
@@ -98,9 +94,10 @@ fun AddEditEmployeeScreen(
                             imeAction = ImeAction.Next
                         ),
                         maxLength = 100
-                        ) {
+                    ) {
                         isEdited = true
-                        empName = it }
+                        empName = it
+                    }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -116,7 +113,8 @@ fun AddEditEmployeeScreen(
                         maxLength = 5
                     ) {
                         isEdited = true
-                        empId = it }
+                        empId = it
+                    }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -132,7 +130,8 @@ fun AddEditEmployeeScreen(
                         maxLength = 100
                     ) {
                         isEdited = true
-                        empDesignation = it }
+                        empDesignation = it
+                    }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -148,7 +147,8 @@ fun AddEditEmployeeScreen(
                         maxLength = 3
                     ) {
                         isEdited = true
-                        empExp = it }
+                        empExp = it
+                    }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -164,7 +164,8 @@ fun AddEditEmployeeScreen(
                         maxLength = 100
                     ) {
                         isEdited = true
-                        empEmailId = it }
+                        empEmailId = it
+                    }
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -180,10 +181,11 @@ fun AddEditEmployeeScreen(
                         maxLength = 10
                     ) {
                         isEdited = true
-                        empPhoneNumber = it }
+                        empPhoneNumber = it
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
-                        if(isEdited){
+                        if (isEdited) {
 
                             val employee = Employee(
                                 id = if (isEdit) selectedEmployee.id else empId.trim().toInt(),
@@ -195,18 +197,20 @@ fun AddEditEmployeeScreen(
                                 empPhoneNo = empPhoneNumber.toLong()
                             )
                             if (isEdit) {
-                                updateEmployeeInDB(mContext,navController, employee, homeViewModel)
+                                updateEmployeeInDB(mContext, navController, employee, homeViewModel)
                             } else {
-                                addEmployeeInDB(mContext,navController, employee, homeViewModel)
+                                addEmployeeInDB(mContext, navController, employee, homeViewModel)
                             }
                             clearAll()
-                        }else{
-                            toast(mContext,"Please add or update something...")
+                        } else {
+                            toast(mContext, "Please add or update something...")
                         }
                     }) {
                         Text(
                             text = if (isEdit) "Update Details" else "Add",
-                            fontSize = 20.sp
+                            fontSize = 18.sp,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center
                         )
                     }
                 }

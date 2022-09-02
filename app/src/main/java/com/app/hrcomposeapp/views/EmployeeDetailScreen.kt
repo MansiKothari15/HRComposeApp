@@ -11,24 +11,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
 import androidx.navigation.NavHostController
 import com.app.hrcomposeapp.R
 import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.utils.CustomToolbarWithBackArrow
-import com.app.hrcomposeapp.utils.toast
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
 @Composable
@@ -134,7 +129,7 @@ fun EmployeeDetailScreen(
                                 modifier = Modifier
                                     .weight(1f)
                             ) {
-                                Text(text = "Edit Details", color = Color.White, fontSize = 16.sp)
+                                Text(text = "Update Details", color = Color.White, fontSize = 16.sp)
                             }
                         }
                     }
