@@ -1,6 +1,11 @@
 package com.app.hrcomposeapp.views
 
-import androidx.compose.runtime.Composable
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -31,7 +36,9 @@ fun AppRouter(homeViewModel: HomeViewModel) {
             )) {
             val isEdit = it.arguments?.getBoolean("isEdit")
             val empId = it.arguments?.getString("empId")
-            AddEditEmployeeScreen(navController, homeViewModel, empId, isEdit!!)
+            EnterAnimation {
+                AddEditEmployeeScreen(navController, homeViewModel, empId, isEdit!!)
+            }
         }
         composable(route = AppScreens.EmployeeDetailScreen.route + "/{empId}",
             arguments = listOf(
@@ -42,8 +49,34 @@ fun AppRouter(homeViewModel: HomeViewModel) {
                 }
             )) {
             val empId = it.arguments?.getString("empId")
-            EmployeeDetailScreen(navController, homeViewModel, empId)
+            EnterAnimation {
+                EmployeeDetailScreen(navController, homeViewModel, empId)
+            }
         }
     }
 
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun EnterAnimation(content: @Composable () -> Unit) {
+    val visible by remember { mutableStateOf(true) }
+    val density = LocalDensity.current
+    AnimatedVisibility(
+        visible = visible,
+        enter = slideInVertically {
+            // Slide in from 40 dp from the top.
+            with(density) { -40.dp.roundToPx() }
+        } + expandVertically(
+            // Expand from the top.
+            expandFrom = Alignment.Top
+        ) + fadeIn(
+            // Fade in with the initial alpha of 0.3f.
+            initialAlpha = 0.3f,
+            animationSpec = tween(500,500)
+        ),
+        exit = slideOutVertically() + shrinkVertically() + fadeOut()
+    ) {
+        content()
+    }
 }

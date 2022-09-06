@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HRComposeApp</string>
+    <string name="app_name">HR Compose App</string>
     <string name="title_activity_home">HomeActivity</string>
 
     <string name="emp_name">Employee Name</string>
