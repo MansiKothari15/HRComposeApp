@@ -1,6 +1,7 @@
 package com.app.hrcomposeapp
 
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -42,6 +43,11 @@ class HomeActivityTest {
         assertEquals(expectedRouteName, AppScreens.HomeScreen.route)
     }
 
+    private fun navigateToAddEmployeeScreen() {
+        val addFABText = composeTestRule.activity.getString(R.string.desc_add_fab)
+        composeTestRule.onNodeWithContentDescription(addFABText).performClick()
+    }
+
     @Test
     fun appNavHost_verifyStartDestination() {
         navController.assertCurrentRouteName(AppScreens.HomeScreen.route)
@@ -51,6 +57,14 @@ class HomeActivityTest {
     fun appNavHost_verifyAppNameShownOnStartHomeScreen() {
         val appName = composeTestRule.activity.getString(R.string.app_name)
         composeTestRule.onNodeWithText(appName).assertExists()
+    }
+
+    @Test
+    fun appNavHost_clickBackOnAddEmployeeScreen_navigatesToHomeScreen() {
+        navigateToAddEmployeeScreen()
+        composeTestRule.onNodeWithContentDescription("back")
+            .performClick()
+        navController.assertCurrentRouteName(AppScreens.HomeScreen.route)
     }
 
     @Test
