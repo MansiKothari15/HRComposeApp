@@ -8,6 +8,13 @@ import android.os.Build
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,10 +22,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -43,8 +47,9 @@ import com.app.hrcomposeapp.database.Employee
 import com.app.hrcomposeapp.ui.theme.Shapes
 import com.app.hrcomposeapp.ui.theme.customWidget.CustomTextField
 import com.app.hrcomposeapp.utils.CustomToolbarWithBackArrow
-import com.app.hrcomposeapp.utils.toast
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 var empPhoneNumber: String = ""
 var empEmailId: String = ""
@@ -52,7 +57,6 @@ var empExp: String = ""
 var empDesignation: String = ""
 var empId: String = ""
 var empName: String = ""
-
 
 @Composable
 fun AddEditEmployeeScreen(
@@ -63,6 +67,10 @@ fun AddEditEmployeeScreen(
 ) {
     lateinit var selectedEmployee: Employee
     val mContext = LocalContext.current
+    // The coroutine scope for event handlers calling suspend functions.
+    val coroutineScope = rememberCoroutineScope()
+    // True if the message about the edit feature is shown.
+    var validationMessageShown by remember { mutableStateOf(false) }
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -85,6 +93,16 @@ fun AddEditEmployeeScreen(
         empEmailId = selectedEmployee.empEmail
         empPhoneNumber = selectedEmployee.empPhoneNo.toString()
     }
+
+    // Shows the validation message.
+    suspend fun showEditMessage() {
+        if (!validationMessageShown) {
+            validationMessageShown = true
+            delay(3000L)
+            validationMessageShown = false
+        }
+    }
+
     val scrollState = rememberScrollState()
 
     var isEdited by remember { mutableStateOf(false) }
@@ -140,6 +158,8 @@ fun AddEditEmployeeScreen(
                             )
                         }
                     }
+                    ValidationMessage(validationMessageShown)
+
                     CustomTextField(
                         modifier = Modifier
                             .padding(all = 10.dp)
@@ -245,10 +265,9 @@ fun AddEditEmployeeScreen(
                     Spacer(modifier = Modifier.height(20.dp))
                     Button(onClick = {
                         if (isEdited) {
-
                             val employee = Employee(
                                 id = if (isEdit) selectedEmployee.id else empId.trim().toInt(),
-                                employeeId = empId.toLong(),
+                                employeeId = empId.trim().toLong(),
                                 employeeName = empName,
                                 employeeDesignation = empDesignation,
                                 empExperience = empExp.toFloat(),
@@ -262,20 +281,55 @@ fun AddEditEmployeeScreen(
                             }
                             clearAll()
                         } else {
-                            toast(mContext, "Please add or update something...")
+//                            toast(mContext, "Please add or update something...")
+                            coroutineScope.launch {
+                                showEditMessage()
+                            }
                         }
                     }) {
                         Text(
                             text = if (isEdit) "Update Details" else "Add",
                             fontSize = 18.sp,
                             modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center
+                            textAlign = TextAlign.Center,
                         )
                     }
                 }
             }
         }
     )
+}
+
+/**
+ * Shows a message that the edit feature is not available.
+ */
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+private fun ValidationMessage(shown: Boolean) {
+    AnimatedVisibility(
+        visible = shown,
+        enter = slideInVertically(
+            // Enters by sliding in from offset -fullHeight to 0.
+            initialOffsetY = { fullHeight -> -fullHeight },
+            animationSpec = tween(durationMillis = 150, easing = LinearOutSlowInEasing)
+        ),
+        exit = slideOutVertically(
+            // Exits by sliding out from offset 0 to -fullHeight.
+            targetOffsetY = { fullHeight -> -fullHeight },
+            animationSpec = tween(durationMillis = 250, easing = FastOutLinearInEasing)
+        )
+    ) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colors.secondary,
+            elevation = 4.dp
+        ) {
+            Text(
+                text = "Please add or update detail",
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    }
 }
 
 fun clearAll() {

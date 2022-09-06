@@ -6,9 +6,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -39,7 +43,7 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
 ) {
     homeViewModel.getAllEmployees()
-    var visible1 by remember { mutableStateOf(true) }
+    val lazyListState = rememberLazyListState()
     Scaffold(
         topBar = {
             CustomToolbar(title = stringResource(id = R.string.app_name))
@@ -48,7 +52,7 @@ fun HomeScreen(
             val employeeList: List<Employee> by homeViewModel.employeeList.observeAsState(initial = listOf())
             if (employeeList.isNotEmpty()) {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+                    LazyColumn(modifier = Modifier.padding(vertical = 4.dp), state = lazyListState) {
                         items(items = employeeList) { emp ->
                             EmployeeCard(employee = emp, navController = navController)
                         }
@@ -62,65 +66,64 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    AnimatedVisibility(
-                        visible = visible1,
-                        enter = fadeIn(
-                            // customize with tween AnimationSpec
-                            animationSpec = tween(
-                                durationMillis = 5000,
-                                delayMillis = 500,
-                                easing = LinearOutSlowInEasing
-                            )
-                        ),
-                        // you can also add animationSpec in fadeOut if need be.
-                        exit = fadeOut() + shrinkHorizontally(),
-
-                        ) {
+                    Text(
+                        "Sadly, there are no employees in your company.",
+                        fontSize = 20.sp,
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .wrapContentHeight(),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        },
+        // Use `FloatingActionButton` rather than `ExtendedFloatingActionButton` for full control on
+        // how it should animate.
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(AppScreens.AddEditEmployeeScreen.route + "/" + "0" + "/" + false)
+                }) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                        contentDescription = stringResource(id = R.string.desc_add_fab),
+                    )
+                    // Toggle the visibility of the content with animation.
+                    AnimatedVisibility(visible = !lazyListState.isScrollingUp()) {
                         Text(
-                            "Sadly, there are no employees in your company.",
-                            fontSize = 20.sp,
+                            text = stringResource(R.string.add_employee),
                             modifier = Modifier
-                                .wrapContentWidth()
-                                .wrapContentHeight(),
-                            textAlign = TextAlign.Center
+                                .padding(start = 8.dp, top = 3.dp)
                         )
                     }
                 }
             }
-        },
-        floatingActionButton = {
-            AnimatedVisibility(
-                visible = visible1,
-                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
-                        fadeIn() + expandIn(expandFrom = Alignment.TopStart),
-                // Scale down from the TopLeft by setting TransformOrigin to (0f, 0f), while shrinking
-                // the layout towards Top start and fading. This will create a coherent look as if the
-                // scale is impacting the layout size.
-                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
-                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
-            ) {
-                ExtendedFloatingActionButton(
-                    text = {
-                        Text(text = stringResource(id = R.string.add_employee))
-                    },
-                    onClick = {
-                        navController.navigate(AppScreens.AddEditEmployeeScreen.route + "/" + "0" + "/" + false)
-                    },
-                    modifier = Modifier.padding(0.dp),
-                    icon = {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                            contentDescription = stringResource(id = R.string.desc_add_fab),
-                        )
-                    },
-                    shape = RoundedCornerShape(20.dp),
-                    backgroundColor = MaterialTheme.colors.secondary,
-                    contentColor = Color.Black,
-                )
-
-            }
         }
     )
+}
+
+/**
+ * Returns whether the lazy list is currently scrolling up.
+ */
+@Composable
+private fun LazyListState.isScrollingUp(): Boolean {
+    var previousIndex by remember(this) { mutableStateOf(firstVisibleItemIndex) }
+    var previousScrollOffset by remember(this) { mutableStateOf(firstVisibleItemScrollOffset) }
+    return remember(this) {
+        derivedStateOf {
+            if (previousIndex != firstVisibleItemIndex) {
+                previousIndex > firstVisibleItemIndex
+            } else {
+                previousScrollOffset >= firstVisibleItemScrollOffset
+            }.also {
+                previousIndex = firstVisibleItemIndex
+                previousScrollOffset = firstVisibleItemScrollOffset
+            }
+        }
+    }.value
 }
 
 @Composable
