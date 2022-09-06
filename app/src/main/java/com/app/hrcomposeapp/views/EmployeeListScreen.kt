@@ -1,8 +1,7 @@
 package com.app.hrcomposeapp.views
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,21 +9,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,12 +32,14 @@ import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.utils.CustomToolbar
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
 ) {
     homeViewModel.getAllEmployees()
+    var visible1 by remember { mutableStateOf(true) }
     Scaffold(
         topBar = {
             CustomToolbar(title = stringResource(id = R.string.app_name))
@@ -63,43 +62,63 @@ fun HomeScreen(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
-                    Text(
-                        "Sadly, there are no employees in your company.",
-                        fontSize = 20.sp,
-                        modifier = Modifier
-                            .wrapContentWidth()
-                            .wrapContentHeight(),
-                        textAlign = TextAlign.Center
-                    )
+                    AnimatedVisibility(
+                        visible = visible1,
+                        enter = fadeIn(
+                            // customize with tween AnimationSpec
+                            animationSpec = tween(
+                                durationMillis = 5000,
+                                delayMillis = 500,
+                                easing = LinearOutSlowInEasing
+                            )
+                        ),
+                        // you can also add animationSpec in fadeOut if need be.
+                        exit = fadeOut() + shrinkHorizontally(),
+
+                        ) {
+                        Text(
+                            "Sadly, there are no employees in your company.",
+                            fontSize = 20.sp,
+                            modifier = Modifier
+                                .wrapContentWidth()
+                                .wrapContentHeight(),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                navController.navigate(AppScreens.AddEditEmployeeScreen.route + "/" + "0" + "/" + false)
-            }, shape = RoundedCornerShape(20.dp)) {
-                Row(
-                    modifier = Modifier.padding(10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_baseline_add_24),
-                        contentDescription = stringResource(id = R.string.desc_add_fab),
-                        colorFilter = ColorFilter.tint(
-                            colorResource(id = R.color.black),
-                        ),
-                        modifier = Modifier
-                            .size(25.dp)
-                            .clip(RoundedCornerShape(50)),
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        "Add New Employee",
-                    )
-                }
-            }
+            AnimatedVisibility(
+                visible = visible1,
+                enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeIn() + expandIn(expandFrom = Alignment.TopStart),
+                // Scale down from the TopLeft by setting TransformOrigin to (0f, 0f), while shrinking
+                // the layout towards Top start and fading. This will create a coherent look as if the
+                // scale is impacting the layout size.
+                exit = scaleOut(transformOrigin = TransformOrigin(0f, 0f)) +
+                        fadeOut() + shrinkOut(shrinkTowards = Alignment.TopStart)
+            ) {
+                ExtendedFloatingActionButton(
+                    text = {
+                        Text(text = stringResource(id = R.string.add_employee))
+                    },
+                    onClick = {
+                        navController.navigate(AppScreens.AddEditEmployeeScreen.route + "/" + "0" + "/" + false)
+                    },
+                    modifier = Modifier.padding(0.dp),
+                    icon = {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_baseline_add_24),
+                            contentDescription = stringResource(id = R.string.desc_add_fab),
+                        )
+                    },
+                    shape = RoundedCornerShape(20.dp),
+                    backgroundColor = MaterialTheme.colors.secondary,
+                    contentColor = Color.Black,
+                )
 
+            }
         }
     )
 }
