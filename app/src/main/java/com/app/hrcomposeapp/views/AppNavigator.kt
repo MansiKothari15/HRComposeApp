@@ -2,7 +2,10 @@ package com.app.hrcomposeapp.views
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
@@ -53,6 +56,12 @@ fun AppRouter(homeViewModel: HomeViewModel, openDrawer: () -> Unit) {
                 EmployeeDetailScreen(navController, homeViewModel, empId)
             }
         }
+        composable(route = AppScreens.Account.route) {
+            HomeScreen(navController, homeViewModel, openDrawer)
+        }
+        composable(route = AppScreens.Help.route) {
+            HomeScreen(navController, homeViewModel, openDrawer)
+        }
     }
 
 }
@@ -73,7 +82,7 @@ fun EnterAnimation(content: @Composable () -> Unit) {
         ) + fadeIn(
             // Fade in with the initial alpha of 0.3f.
             initialAlpha = 0.3f,
-            animationSpec = tween(500,500)
+            animationSpec = tween(500, 500)
         ),
         exit = slideOutVertically() + shrinkVertically() + fadeOut()
     ) {

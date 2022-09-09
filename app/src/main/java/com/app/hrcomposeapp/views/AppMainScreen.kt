@@ -10,6 +10,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -83,22 +84,24 @@ fun Drawer(
             )
         }
         screens.forEach { screen ->
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(12.dp))
             Text(
-                text = screen.route,
-                style = MaterialTheme.typography.h1,
+                text = screen.title,
+                style = MaterialTheme.typography.body2,
                 modifier = Modifier
                     .clickable {
                         onDestinationClicked(screen.route)
                     }
                     .padding(start = 10.dp)
             )
+            Spacer(Modifier.height(12.dp))
+            Divider(color = Color.Gray)
         }
     }
 }
 
 private val screens = listOf(
     AppScreens.HomeScreen,
-    AppScreens.AddEditEmployeeScreen,
-    AppScreens.EmployeeDetailScreen
+    AppScreens.Account,
+    AppScreens.Help
 )
