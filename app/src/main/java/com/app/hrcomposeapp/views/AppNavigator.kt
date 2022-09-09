@@ -9,6 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,9 +20,7 @@ import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
 @Composable
-fun AppRouter(homeViewModel: HomeViewModel, openDrawer: () -> Unit) {
-
-    val navController = rememberNavController()
+fun AppRouter(navController: NavHostController, homeViewModel: HomeViewModel, openDrawer: () -> Unit) {
 
     NavHost(navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.HomeScreen.route) {
@@ -57,10 +57,10 @@ fun AppRouter(homeViewModel: HomeViewModel, openDrawer: () -> Unit) {
             }
         }
         composable(route = AppScreens.Account.route) {
-            HomeScreen(navController, homeViewModel, openDrawer)
+            AccountScreen(navController, homeViewModel, openDrawer)
         }
         composable(route = AppScreens.Help.route) {
-            HomeScreen(navController, homeViewModel, openDrawer)
+            HelpScreen(navController, homeViewModel, openDrawer)
         }
     }
 

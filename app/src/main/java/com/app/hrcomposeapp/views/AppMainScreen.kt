@@ -16,7 +16,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.app.hrcomposeapp.R
 import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
@@ -42,6 +47,21 @@ fun AppMainScreen(homeViewModel: HomeViewModel) {
                         scope.launch {
                             drawerState.close()
                         }
+                        navController.navigate(route) {
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            navController.graph.startDestinationRoute?.let { route ->
+                                popUpTo(route) {
+                                    saveState = true
+                                }
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
+                        }
                         /*navController.navigate(route) {
                             popUpTo = navController.graph.startDestinationId
                             launchSingleTop = true
@@ -50,58 +70,9 @@ fun AppMainScreen(homeViewModel: HomeViewModel) {
                 )
             }
         ) {
-            AppRouter(homeViewModel = homeViewModel, openDrawer = {
+            AppRouter(navController, homeViewModel = homeViewModel, openDrawer = {
                 openDrawer()
             })
         }
     }
 }
-
-@Composable
-fun Drawer(
-    modifier: Modifier = Modifier,
-    onDestinationClicked: (route: String) -> Unit
-) {
-    Column(
-        modifier
-            .fillMaxSize(),
-    ) {
-        Column(
-            modifier
-                .fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_baseline_person_pin_24),
-                colorFilter = ColorFilter.tint(
-                    colorResource(id = R.color.primaryColor),
-                ),
-                contentDescription = "App icon",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(140.dp)
-                    .clip(RoundedCornerShape(50)),
-            )
-        }
-        screens.forEach { screen ->
-            Spacer(Modifier.height(12.dp))
-            Text(
-                text = screen.title,
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier
-                    .clickable {
-                        onDestinationClicked(screen.route)
-                    }
-                    .padding(start = 10.dp)
-            )
-            Spacer(Modifier.height(12.dp))
-            Divider(color = Color.Gray)
-        }
-    }
-}
-
-private val screens = listOf(
-    AppScreens.HomeScreen,
-    AppScreens.Account,
-    AppScreens.Help
-)
