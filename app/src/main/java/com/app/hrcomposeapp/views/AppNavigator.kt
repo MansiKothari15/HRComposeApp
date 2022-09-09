@@ -15,13 +15,13 @@ import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
 @Composable
-fun AppRouter(homeViewModel: HomeViewModel) {
+fun AppRouter(homeViewModel: HomeViewModel, openDrawer: () -> Unit) {
 
     val navController = rememberNavController()
 
     NavHost(navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController, homeViewModel)
+            HomeScreen(navController, homeViewModel, openDrawer)
         }
         composable(route = AppScreens.AddEditEmployeeScreen.route + "/{empId}/{isEdit}",
             arguments = listOf(

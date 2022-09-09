@@ -22,10 +22,12 @@ class HomeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             HRComposeAppTheme {
-                Surface(
+                /*Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
-                ) { AppRouter(homeViewModel) }
+                ) { AppRouter(homeViewModel) }*/
+
+                AppMainScreen(homeViewModel)
             }
         }
     }

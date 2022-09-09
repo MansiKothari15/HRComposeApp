@@ -41,12 +41,13 @@ import com.app.hrcomposeapp.viewmodels.HomeViewModel
 fun HomeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
+    openDrawer: () -> Unit
 ) {
     homeViewModel.getAllEmployees()
     val lazyListState = rememberLazyListState()
     Scaffold(
         topBar = {
-            CustomToolbar(title = stringResource(id = R.string.app_name))
+            CustomToolbar(title = stringResource(id = R.string.app_name), openDrawer)
         },
         content = {
             val employeeList: List<Employee> by homeViewModel.employeeList.observeAsState(initial = listOf())
