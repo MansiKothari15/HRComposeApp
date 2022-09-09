@@ -1,7 +1,10 @@
 package com.app.hrcomposeapp.views
 
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,8 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -21,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -53,7 +53,10 @@ fun HomeScreen(
             val employeeList: List<Employee> by homeViewModel.employeeList.observeAsState(initial = listOf())
             if (employeeList.isNotEmpty()) {
                 Surface(color = Color.White, modifier = Modifier.fillMaxSize()) {
-                    LazyColumn(modifier = Modifier.padding(vertical = 4.dp), state = lazyListState) {
+                    LazyColumn(
+                        modifier = Modifier.padding(vertical = 4.dp),
+                        state = lazyListState
+                    ) {
                         items(items = employeeList) { emp ->
                             EmployeeCard(employee = emp, navController = navController)
                         }

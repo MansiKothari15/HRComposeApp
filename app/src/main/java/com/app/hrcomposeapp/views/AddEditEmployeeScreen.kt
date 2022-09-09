@@ -154,7 +154,9 @@ fun AddEditEmployeeScreen(
                             Image(
                                 bitmap = btm.asImageBitmap(),
                                 contentDescription = null,
-                                modifier = Modifier.size(120.dp).clip(Shapes.large),
+                                modifier = Modifier
+                                    .size(120.dp)
+                                    .clip(Shapes.large),
                             )
                         }
                     }

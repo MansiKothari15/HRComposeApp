@@ -33,4 +33,4 @@ data class Employee(
 
     @ColumnInfo(name = "phoneNo")
     var empPhoneNo: Long
-): Parcelable
+) : Parcelable

@@ -8,8 +8,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class AppScreens(val title: String, val route: String, var icon: ImageVector) {
     object HomeScreen : AppScreens("Home", "homeScreen", Icons.Default.Home)
-    object AddEditEmployeeScreen : AppScreens("Add/Edit Employee", "addEditEmployeeScreen", Icons.Default.Home)
-    object EmployeeDetailScreen : AppScreens("Employee Details", "employeeDetailScreen", Icons.Default.Home)
+    object AddEditEmployeeScreen :
+        AppScreens("Add/Edit Employee", "addEditEmployeeScreen", Icons.Default.Home)
+
+    object EmployeeDetailScreen :
+        AppScreens("Employee Details", "employeeDetailScreen", Icons.Default.Home)
+
     object Account : AppScreens("Account", "account", Icons.Default.AccountCircle)
     object Help : AppScreens("Help", "help", Icons.Default.Info)
 

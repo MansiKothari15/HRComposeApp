@@ -9,18 +9,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
 @Composable
-fun AppRouter(navController: NavHostController, homeViewModel: HomeViewModel, openDrawer: () -> Unit) {
+fun AppRouter(
+    navController: NavHostController,
+    homeViewModel: HomeViewModel,
+    openDrawer: () -> Unit
+) {
 
     NavHost(navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.HomeScreen.route) {

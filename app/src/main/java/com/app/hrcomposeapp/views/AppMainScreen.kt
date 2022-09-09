@@ -1,29 +1,9 @@
 package com.app.hrcomposeapp.views
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import com.app.hrcomposeapp.R
-import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 import kotlinx.coroutines.launch
 
@@ -62,10 +42,6 @@ fun AppMainScreen(homeViewModel: HomeViewModel) {
                             // Restore state when reselecting a previously selected item
                             restoreState = true
                         }
-                        /*navController.navigate(route) {
-                            popUpTo = navController.graph.startDestinationId
-                            launchSingleTop = true
-                        }*/
                     }
                 )
             }
