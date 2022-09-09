@@ -15,8 +15,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.app.hrcomposeapp.R
 import com.app.hrcomposeapp.utils.AppScreens
@@ -35,7 +38,8 @@ fun Drawer(
 ) {
     Column(
         modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .fillMaxHeight(),
     ) {
         Column(
             modifier
@@ -77,7 +81,17 @@ fun Drawer(
                         .fillMaxWidth()
                 )
             }
-            Divider(color = Color.Gray)
+            Divider(color = Color.LightGray)
         }
+        Spacer(modifier = Modifier.weight(1f))
+        Text(
+            text = "Developed by Mansi S. & Dharmesh B. \nV (1.0)",
+            color = Color.Gray,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.caption,
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.CenterHorizontally)
+        )
     }
 }
