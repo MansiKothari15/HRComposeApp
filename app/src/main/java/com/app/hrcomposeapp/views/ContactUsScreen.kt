@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,6 +37,8 @@ fun ContactUsScreen(
     openDrawer: () -> Unit
 ) {
     val context = LocalContext.current
+    var userMessage: String = ""
+    var emailSubject = stringResource(id = R.string.customer_feedback)
 
     Scaffold(
         topBar = {
@@ -76,13 +79,12 @@ fun ContactUsScreen(
                         maxLength = 150,
                         maxLines = 5
                     ) {
-
+                        userMessage = it
                     }
-
                     Button(
                         onClick = {
-                            val addresses = arrayOf("mansi.kothari@bacancy.com")
-                            composeEmail(context,addresses,"Customer Feedback","Hello World!")
+                            val addresses = arrayOf("abc@gmail.com")
+                            composeEmail(context,addresses, emailSubject, userMessage)
                         },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -105,7 +107,7 @@ fun composeEmail(context: Context, addresses: Array<String>, subject: String, me
         putExtra(Intent.EXTRA_SUBJECT, subject)
         putExtra(Intent.EXTRA_TEXT, message)
     }
-    startActivity(context,createChooser(intent, "Send email..."),null)
+    startActivity(context,createChooser(intent, "Send an email..."),null)
 }
 
 @Preview
