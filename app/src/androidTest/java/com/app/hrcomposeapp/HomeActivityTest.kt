@@ -1,9 +1,9 @@
 package com.app.hrcomposeapp
 
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -28,6 +28,10 @@ class HomeActivityTest {
     val composeTestRule = createAndroidComposeRule<HomeActivity>()
     // use createAndroidComposeRule<YourActivity>() if you need access to
     // an activity or use createComposeRule()
+
+    @get:Rule
+    val composeTestRule1 = createComposeRule()
+
 
     @Before
     fun setupCupcakeNavHost() {
@@ -68,19 +72,24 @@ class HomeActivityTest {
     }
 
     @Test
+    fun open_drawer_test() {
+        val navDrawerDesc = "navigation_drawer"
+        composeTestRule.onNodeWithContentDescription(navDrawerDesc).performClick()
+    }
+
+    @Test
     fun add_fab_test() {
         val addFABText = composeTestRule.activity.getString(R.string.desc_add_fab)
         val addEmployeeText = composeTestRule.activity.getString(R.string.add_employee)
-        composeTestRule.onNodeWithContentDescription(addFABText).performClick()
+        composeTestRule.onNodeWithContentDescription(addFABText, useUnmergedTree = true)
+            .performClick()
         composeTestRule.onNodeWithText(addEmployeeText, useUnmergedTree = true).assertIsDisplayed()
     }
 
     @Test
     fun givenAnEmployeeList_whenWeClickEachItem_thenItemDetailIsDisplayed() {
-
         /*composeTestRule.onClickableTextItem("Item 1").performClick()
         composeTestRule.onList().assertDoesNotExist()*/
-
     }
 
 }

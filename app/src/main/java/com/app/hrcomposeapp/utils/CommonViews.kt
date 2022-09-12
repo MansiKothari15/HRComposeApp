@@ -34,7 +34,7 @@ fun CustomToolbar(title: String,onButtonClicked: () -> Unit) {
         title = { Text(text = title, style = MaterialTheme.typography.h1) },
         navigationIcon = {
             IconButton(onClick = { onButtonClicked() } ) {
-                Icon(Icons.Default.Menu, contentDescription = "")
+                Icon(Icons.Default.Menu, contentDescription = "navigation drawer")
             }
         },
     )

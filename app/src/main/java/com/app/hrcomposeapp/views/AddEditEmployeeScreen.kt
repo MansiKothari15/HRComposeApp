@@ -356,7 +356,6 @@ fun addEmployeeInDB(
     homeViewModel: HomeViewModel
 ) {
     homeViewModel.addEmployee(employee)
-//    toast(context,"Employee Added !!!")
     navController.popBackStack()
 }
 
@@ -367,7 +366,6 @@ fun updateEmployeeInDB(
     homeViewModel: HomeViewModel
 ) {
     homeViewModel.updateEmployeeDetails(employee)
-//    toast(context,"Employee Details Updated !!!")
     navController.popBackStack()
 }
 
