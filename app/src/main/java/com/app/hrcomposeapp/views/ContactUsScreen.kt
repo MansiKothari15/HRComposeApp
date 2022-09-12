@@ -42,7 +42,7 @@ fun ContactUsScreen(
 
     Scaffold(
         topBar = {
-            CustomToolbar(title = "Contact Us", openDrawer)
+            CustomToolbar(title = "Raise a Concern", openDrawer)
         },
         content = {
             Surface(
@@ -56,7 +56,7 @@ fun ContactUsScreen(
                         .padding(10.dp),
                 ) {
                     Text(
-                        "Have any queries or feedback? Share with us.",
+                        "Have any concern or feedback? Share with us.",
                         fontSize = 16.sp,
                         modifier = Modifier
                             .wrapContentWidth()

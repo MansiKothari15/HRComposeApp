@@ -16,7 +16,7 @@ sealed class AppScreens(val title: String, val route: String, var icon: ImageVec
         AppScreens("Employee Details", "employeeDetailScreen", Icons.Default.Home)
 
     object Account : AppScreens("Account", "account", Icons.Default.AccountCircle)
-    object Contact : AppScreens("Contact Us", "contact", Icons.Default.Email)
+    object Contact : AppScreens("Raise a Concern", "contact", Icons.Default.Email)
     object Help : AppScreens("Help", "help", Icons.Default.Info)
 
     fun routeWithArgs(vararg args: String): String {
