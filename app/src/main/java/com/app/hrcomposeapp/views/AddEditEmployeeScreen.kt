@@ -174,7 +174,8 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-                        maxLength = 100
+                        maxLength = 50,
+                        maxLines = 1
                     ) {
                         isEdited = true
                         empName = it
@@ -191,7 +192,8 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
                         ),
-                        maxLength = 5
+                        maxLength = 5,
+                        maxLines = 1
                     ) {
                         isEdited = true
                         empId = it
@@ -208,7 +210,8 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Text,
                             imeAction = ImeAction.Next
                         ),
-                        maxLength = 100
+                        maxLength = 100,
+                        maxLines = 1
                     ) {
                         isEdited = true
                         empDesignation = it
@@ -225,7 +228,8 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
                         ),
-                        maxLength = 3
+                        maxLength = 3,
+                        maxLines = 1
                     ) {
                         isEdited = true
                         empExp = it
@@ -242,7 +246,8 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Email,
                             imeAction = ImeAction.Next
                         ),
-                        maxLength = 100
+                        maxLength = 100,
+                        maxLines = 1
                     ) {
                         isEdited = true
                         empEmailId = it
@@ -259,7 +264,8 @@ fun AddEditEmployeeScreen(
                             keyboardType = KeyboardType.Phone,
                             imeAction = ImeAction.Done,
                         ),
-                        maxLength = 10
+                        maxLength = 10,
+                        maxLines = 1
                     ) {
                         isEdited = true
                         empPhoneNumber = it

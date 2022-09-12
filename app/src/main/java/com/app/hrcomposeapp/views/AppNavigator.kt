@@ -64,6 +64,9 @@ fun AppRouter(
         composable(route = AppScreens.Help.route) {
             HelpScreen(navController, homeViewModel, openDrawer)
         }
+        composable(route = AppScreens.Contact.route) {
+            ContactUsScreen(navController, homeViewModel, openDrawer)
+        }
     }
 
 }

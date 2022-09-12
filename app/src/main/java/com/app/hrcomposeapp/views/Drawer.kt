@@ -26,6 +26,7 @@ import com.app.hrcomposeapp.utils.AppScreens
 private val screens = listOf(
     AppScreens.HomeScreen,
     AppScreens.Account,
+    AppScreens.Contact,
     AppScreens.Help
 )
 

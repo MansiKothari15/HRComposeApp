@@ -11,5 +11,6 @@
     <string name="desc_add_fab">Add FAB</string>
     <string name="add_employee">Add Employee</string>
     <string name="back">back</string>
+    <string name="contact_query">Query/feedback</string>
 
 </resources>

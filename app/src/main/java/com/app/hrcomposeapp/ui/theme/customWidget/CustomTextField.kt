@@ -20,6 +20,7 @@ fun CustomTextField(
     inputWrapper: String,
     @StringRes labelResId: Int,
     maxLength: Int,
+    maxLines: Int,
     onTextChanged: (String) -> Unit
 ) {
     var fieldValue by remember { mutableStateOf(inputWrapper) }
@@ -28,7 +29,7 @@ fun CustomTextField(
         OutlinedTextField(
             value = fieldValue,
             label = { Text(stringResource(labelResId), style = MaterialTheme.typography.caption) },
-            maxLines = 1,
+            maxLines = maxLines,
             keyboardOptions = keyboardOptions,
             modifier = modifier,
             onValueChange = {
