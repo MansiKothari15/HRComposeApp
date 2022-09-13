@@ -23,7 +23,6 @@ fun AppRouter(
     homeViewModel: HomeViewModel,
     openDrawer: () -> Unit
 ) {
-
     NavHost(navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.HomeScreen.route) {
             HomeScreen(navController, homeViewModel, openDrawer)

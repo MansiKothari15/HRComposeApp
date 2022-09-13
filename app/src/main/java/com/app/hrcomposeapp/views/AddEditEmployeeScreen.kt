@@ -309,7 +309,7 @@ fun AddEditEmployeeScreen(
 }
 
 /**
- * Shows a message that the edit feature is not available.
+ * Shows a validation message.
  */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
