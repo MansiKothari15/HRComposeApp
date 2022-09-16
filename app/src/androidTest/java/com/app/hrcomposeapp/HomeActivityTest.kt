@@ -1,5 +1,6 @@
 package com.app.hrcomposeapp
 
+import androidx.activity.viewModels
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
@@ -11,7 +12,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.ComposeNavigator
 import androidx.navigation.testing.TestNavHostController
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.app.hrcomposeapp.ui.theme.HRComposeAppTheme
 import com.app.hrcomposeapp.utils.AppScreens
+import com.app.hrcomposeapp.viewmodels.HomeViewModel
+import com.app.hrcomposeapp.views.AppMainScreen
 import com.app.hrcomposeapp.views.HomeActivity
 import junit.framework.Assert.assertEquals
 import org.junit.Before

@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.app.hrcomposeapp.utils.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -55,6 +55,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.1'
     implementation 'androidx.core:core-splashscreen:1.0.0'
+    implementation 'androidx.test:runner:1.4.0'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
@@ -67,6 +68,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest:$compose_version")
     androidTestImplementation "androidx.navigation:navigation-testing:2.5.2"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:2.38.1"
 
     def dagger_hilt_version = "2.40"
     def hilt_lifecycle_viewmodel_version = "1.0.0-alpha03"
