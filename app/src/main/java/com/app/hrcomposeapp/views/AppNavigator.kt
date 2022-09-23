@@ -11,22 +11,20 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppRouter(
     navController: NavHostController,
     homeViewModel: HomeViewModel,
     openDrawer: () -> Unit
 ) {
-    NavHost(navController, startDestination = AppScreens.HomeScreen.route) {
-        composable(route = AppScreens.HomeScreen.route) {
-            HomeScreen(navController, homeViewModel, openDrawer)
-        }
+    AnimatedNavHost(navController, startDestination = AppScreens.HomeScreen.route) {
         composable(route = AppScreens.AddEditEmployeeScreen.route + "/{empId}/{isEdit}",
             arguments = listOf(
                 navArgument("empId") {
@@ -37,12 +35,20 @@ fun AppRouter(
                     type = NavType.BoolType
                     defaultValue = false
                 }
-            )) {
+            ), enterTransition = {
+                // Let's make for a really long fade in
+                slideInVertically(
+                    initialOffsetY = { 1800 }
+                )
+            }, popExitTransition = {
+                slideOutVertically(
+                    targetOffsetY = { 1800 }
+                )
+            }
+        ) {
             val isEdit = it.arguments?.getBoolean("isEdit")
             val empId = it.arguments?.getString("empId")
-            EnterAnimation {
-                AddEditEmployeeScreen(navController, homeViewModel, empId, isEdit!!)
-            }
+            AddEditEmployeeScreen(navController, homeViewModel, empId, isEdit!!)
         }
         composable(route = AppScreens.EmployeeDetailScreen.route + "/{empId}",
             arguments = listOf(
@@ -53,9 +59,10 @@ fun AppRouter(
                 }
             )) {
             val empId = it.arguments?.getString("empId")
-            EnterAnimation {
-                EmployeeDetailScreen(navController, homeViewModel, empId)
-            }
+            EmployeeDetailScreen(navController, homeViewModel, empId)
+        }
+        composable(route = AppScreens.HomeScreen.route) {
+            HomeScreen(navController, homeViewModel, openDrawer)
         }
         composable(route = AppScreens.Account.route) {
             AccountScreen(navController, homeViewModel, openDrawer)
@@ -70,7 +77,6 @@ fun AppRouter(
 
 }
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun EnterAnimation(content: @Composable () -> Unit) {
     val visible by remember { mutableStateOf(true) }

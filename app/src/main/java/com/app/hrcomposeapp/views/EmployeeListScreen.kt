@@ -1,7 +1,6 @@
 package com.app.hrcomposeapp.views
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -17,7 +16,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -36,7 +34,6 @@ import com.app.hrcomposeapp.utils.AppScreens
 import com.app.hrcomposeapp.utils.CustomToolbar
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
 
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -71,7 +68,7 @@ fun HomeScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        "Sadly, there are no employees in your company.",
+                        "No employees onboarded yet.",
                         fontSize = 20.sp,
                         modifier = Modifier
                             .wrapContentWidth()

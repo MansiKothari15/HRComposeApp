@@ -1,15 +1,18 @@
 package com.app.hrcomposeapp.views
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
 import com.app.hrcomposeapp.viewmodels.HomeViewModel
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppMainScreen(homeViewModel: HomeViewModel) {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
     Surface(color = MaterialTheme.colors.background) {
         val drawerState = rememberDrawerState(DrawerValue.Closed)
         val scope = rememberCoroutineScope()
